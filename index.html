@@ -715,46 +715,99 @@
         window.toggleBot = () => document.getElementById('bot-window').classList.toggle('open');
 
         window.sendToGemini = async () => {
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            const geminiKey = getGeminiKey();
-            if(!text) return;
-            if(!geminiKey) { addMsg('bot', "מפתח ה-API חסר. הכנס אותו במסך ההגדרות (⚙️) למעלה."); return; }
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    const geminiKey = getGeminiKey();
+    if (!text) return;
+    if (!geminiKey) { addMsg('bot', "מפתח ה-API חסר. הכנס אותו במסך ההגדרות (⚙️) למעלה."); return; }
 
-            addMsg('user', text);
-            input.value = "";
-            document.getElementById('bot-status').classList.remove('hidden');
+    addMsg('user', text);
+    input.value = "";
+    document.getElementById('bot-status').classList.remove('hidden');
 
-            const systemPrompt = `You are a professional IDF Pilot Training Assistant. The user wants to modify workouts or UI. Return ONLY valid JSON:
-            { "message": "Hebrew reply", "updates": { "dayId": { "details": "new text", "title": "optional" } }, "ui": { "backgroundColor": "optional" } }
-            Day IDs: m4-m31, a1-a30. Context overrides: ${JSON.stringify(appState.custom)}`;
+    // איסוף לו"ז חודשי כדי שהבוט ידע מתי יש לך אימונים אחרים
+    const monthData = baseWorkouts[uiState.month] || [];
+    const monthSummary = monthData.map(w => {
+        const c = appState.custom[w.id] || {};
+        return `${w.date} (ID: ${w.id}): ${c.title || w.title}`;
+    }).join(' | ');
 
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text }] }], systemInstruction: { parts: [{ text: systemPrompt }] }, generationConfig: { responseMimeType: "application/json" } })
-                });
-                const result = await response.json();
-                const botData = JSON.parse(result.candidates[0].content.parts[0].text);
-                
-                document.getElementById('bot-status').classList.add('hidden');
-                if(botData.message) addMsg('bot', botData.message);
-                if(botData.updates) {
-                    for(let key in botData.updates) {
-                        if(!appState.custom[key]) appState.custom[key] = {};
-                        Object.assign(appState.custom[key], botData.updates[key]);
-                    }
-                    syncData();
-                    if(uiState.activeId) selectDay(uiState.activeId);
-                    renderList();
-                }
-                if(botData.ui?.backgroundColor) document.body.style.backgroundColor = botData.ui.backgroundColor;
-            } catch(e) {
-                document.getElementById('bot-status').classList.add('hidden');
-                addMsg('bot', "תקלת תקשורת. בדוק את חיבור הרשת או את מפתח ה-API.");
+    // בדיקת האימון הפתוח כרגע על המסך
+    let selectedDay = "לא נבחר אימון.";
+    if (uiState.activeId) {
+        const w = monthData.find(x => x.id === uiState.activeId);
+        if (w) {
+            const c = appState.custom[w.id] || {};
+            selectedDay = `ID: ${w.id} | תאריך: ${w.date} | סוג: ${c.cat || w.cat}\nשם: ${c.title || w.title}\nפירוט: ${c.details || w.details}`;
+        }
+    }
+
+    // הנחיות ברורות למודל הפלאש
+    const sysPrompt = `You are an elite IDF Pilot Training Assistant. The user speaks Hebrew.
+    
+    [CONTEXT]
+    Month Schedule: ${monthSummary}
+    Selected Workout: ${selectedDay}
+    User Stats: Weight ${appState.profile.weight || 'N/A'}kg, Height ${appState.profile.height || 'N/A'}cm, Max Pullups ${appState.profile.pullups || 'N/A'}.
+    
+    [INSTRUCTIONS]
+    1. Provide specific, professional feedback on the workouts in Hebrew. 
+    2. To MODIFY or ADD a workout, use the "updates" JSON object. Include the target Day ID (e.g., "m5"), and set "title", "details", and "cat" (options: cardio, strength, legs, intervals, simulation, rest).
+    3. To REMOVE or CANCEL a workout, update that Day ID with "cat": "rest", "title": "יום מנוחה", and "details": "האימון בוטל/נמחק לבקשתך.".
+    4. DO NOT output Markdown (like \`\`\`json). Output pure JSON only.
+    
+    FORMAT:
+    {
+      "message": "Your helpful response here...",
+      "updates": { 
+         "${uiState.activeId || 'm5'}": { "title": "...", "details": "...", "cat": "strength" } 
+      }
+    }`;
+
+    try {
+        // שימוש במודל 2.5-flash המהיר
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text }] }],
+                systemInstruction: { parts: [{ text: sysPrompt }] },
+                generationConfig: { responseMimeType: "application/json" }
+            })
+        });
+
+        if (!response.ok) throw new Error("API Error");
+        const result = await response.json();
+
+        // מנקה את הטקסט למקרה שהמודל בכל זאת שלח עטיפת Markdown
+        let cleanJson = result.candidates[0].content.parts[0].text;
+        cleanJson = cleanJson.replace(/\`\`\`json/gi, '').replace(/\`\`\`/g, '').trim();
+        const botData = JSON.parse(cleanJson);
+
+        document.getElementById('bot-status').classList.add('hidden');
+        if (botData.message) addMsg('bot', botData.message);
+
+        // ביצוע השינויים בלוח השנה בפועל
+        if (botData.updates && Object.keys(botData.updates).length > 0) {
+            let changed = false;
+            for (let dayId in botData.updates) {
+                if (!appState.custom[dayId]) appState.custom[dayId] = {};
+                Object.assign(appState.custom[dayId], botData.updates[dayId]);
+                changed = true;
             }
-        };
+            if (changed) {
+                syncData();
+                renderList(); // מרענן את כל הלוח השמאלי
+                if (uiState.activeId) selectDay(uiState.activeId); // מרענן את חלונית הפירוט
+                addMsg('bot', "✅ ביצעתי את השינויים שביקשת בלוח האימונים.");
+            }
+        }
+    } catch (e) {
+        console.error("Gemini Error:", e);
+        document.getElementById('bot-status').classList.add('hidden');
+        addMsg('bot', "שגיאה בפיענוח. נסה להסביר לבוט את הבקשה שוב.");
+    }
+};
 
         function addMsg(role, text) {
             const chat = document.getElementById('chat-box');
@@ -775,5 +828,6 @@
     </script>
 </body>
 </html>
+
 
 
