@@ -68,7 +68,7 @@
                 <span class="font-bold text-xl tracking-tighter">בקרת אימונים: טיס</span>
             </div>
             <div class="flex items-center gap-4 text-sm font-medium">
-                <button onclick="switchView('dashboard')" id="nav-dashboard" class="text-blue-300 hover:text-white transition-colors border-b-2 border-transparent pb-1">לוח בקרה</button>
+                <button onclick="switchView('dashboard')" id="nav-dashboard" class="text-blue-300 hover:text-white transition-colors border-b-2 border-transparent pb-1 border-blue-300">לוח בקרה</button>
                 <button onclick="switchView('profile')" id="nav-profile" class="text-white hover:text-blue-300 transition-colors border-b-2 border-transparent pb-1">פרופיל מדדים</button>
                 <button onclick="toggleSettings()" class="text-xl hover:text-blue-300 transition-colors" title="הגדרות סנכרון">⚙️</button>
             </div>
@@ -98,39 +98,65 @@
     <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
         
         <section id="view-profile" class="hidden bg-white rounded-3xl shadow-lg border border-slate-200 p-8 animate-fade-in">
-            <div class="flex justify-between items-center mb-8 border-b pb-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b pb-4 gap-4">
                 <div>
                     <h2 class="text-3xl font-black text-slate-900">פרופיל לוחם ומדדי התקדמות</h2>
-                    <p class="text-slate-500">עקוב אחר השיפור הפיזי שלך לאורך זמן.</p>
+                    <p class="text-slate-500">עקוב אחר השיפור הפיזי שלך לאורך זמן. הוסף מדידות חדשות לפי ימים.</p>
                 </div>
-                <div class="text-6xl">📈</div>
+                <div class="bg-blue-50 p-4 rounded-2xl flex items-center gap-3 border border-blue-100">
+                    <div>
+                        <label class="text-xs font-bold text-blue-800">תאריך המדידה הנוכחית</label>
+                        <input type="text" id="prof-date" class="w-full p-2 mt-1 border border-blue-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500" placeholder="לדוגמה: 15.3">
+                    </div>
+                    <button onclick="saveProfile()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-xl h-[42px] mt-5 shadow-md transition-colors whitespace-nowrap">
+                        שמור מדידה לגרף
+                    </button>
+                </div>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                     <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2"><span>👤</span> נתונים פיזיים</h3>
                     <div class="space-y-3">
-                        <div><label class="text-xs font-bold text-slate-500">גיל</label><input type="number" id="prof-age" onchange="saveProfile()" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></div>
-                        <div><label class="text-xs font-bold text-slate-500">גובה (ס"מ)</label><input type="number" id="prof-height" onchange="saveProfile()" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></div>
-                        <div><label class="text-xs font-bold text-slate-500">משקל (ק"ג)</label><input type="number" id="prof-weight" onchange="saveProfile()" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></div>
+                        <div><label class="text-xs font-bold text-slate-500">גיל</label><input type="number" id="prof-age" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></div>
+                        <div><label class="text-xs font-bold text-slate-500">גובה (ס"מ)</label><input type="number" id="prof-height" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></div>
+                        <div><label class="text-xs font-bold text-slate-500">משקל (ק"ג)</label><input type="number" id="prof-weight" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></div>
                     </div>
                 </div>
 
                 <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
                     <h3 class="font-bold text-blue-800 mb-4 flex items-center gap-2"><span>💪</span> שיאי כוח (מקסימום רצוף)</h3>
                     <div class="space-y-3">
-                        <div><label class="text-xs font-bold text-blue-600">מקסימום מתח רצוף</label><input type="number" id="prof-pullups" onchange="saveProfile()" class="w-full p-2 border border-blue-200 rounded-lg"></div>
-                        <div><label class="text-xs font-bold text-blue-600">מקסימום שכיבות סמיכה</label><input type="number" id="prof-pushups" onchange="saveProfile()" class="w-full p-2 border border-blue-200 rounded-lg"></div>
-                        <div><label class="text-xs font-bold text-blue-600">מקסימום סמוך קומים (בדקה)</label><input type="number" id="prof-burpees" onchange="saveProfile()" class="w-full p-2 border border-blue-200 rounded-lg"></div>
+                        <div><label class="text-xs font-bold text-blue-600">מקסימום מתח רצוף</label><input type="number" id="prof-pullups" class="w-full p-2 border border-blue-200 rounded-lg"></div>
+                        <div><label class="text-xs font-bold text-blue-600">מקסימום שכיבות סמיכה</label><input type="number" id="prof-pushups" class="w-full p-2 border border-blue-200 rounded-lg"></div>
+                        <div><label class="text-xs font-bold text-blue-600">מקסימום סמוך קומים (בדקה)</label><input type="number" id="prof-burpees" class="w-full p-2 border border-blue-200 rounded-lg"></div>
                     </div>
                 </div>
 
                 <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100">
                     <h3 class="font-bold text-emerald-800 mb-4 flex items-center gap-2"><span>🏃‍♂️</span> סיבולת וריצה</h3>
                     <div class="space-y-3">
-                        <div><label class="text-xs font-bold text-emerald-600">זמן ריצת 3 ק"מ (דק':שנ')</label><input type="text" id="prof-run3k" placeholder="לדוגמה: 12:30" onchange="saveProfile()" class="w-full p-2 border border-emerald-200 rounded-lg"></div>
-                        <div><label class="text-xs font-bold text-emerald-600">זמן ריצת 5 ק"מ</label><input type="text" id="prof-run5k" onchange="saveProfile()" class="w-full p-2 border border-emerald-200 rounded-lg"></div>
-                        <div><label class="text-xs font-bold text-emerald-600">זמן מעגל גיבוש (5 סבבים)</label><input type="text" id="prof-sim" placeholder="זמן כולל" onchange="saveProfile()" class="w-full p-2 border border-emerald-200 rounded-lg"></div>
+                        <div><label class="text-xs font-bold text-emerald-600">זמן ריצת 3 ק"מ (דק':שנ')</label><input type="text" id="prof-run3k" placeholder="לדוגמה: 12:30" class="w-full p-2 border border-emerald-200 rounded-lg"></div>
+                        <div><label class="text-xs font-bold text-emerald-600">זמן ריצת 5 ק"מ</label><input type="text" id="prof-run5k" placeholder="לדוגמה: 23:45" class="w-full p-2 border border-emerald-200 rounded-lg"></div>
+                        <div><label class="text-xs font-bold text-emerald-600">זמן מעגל גיבוש (5 סבבים)</label><input type="text" id="prof-sim" placeholder="זמן כולל" class="w-full p-2 border border-emerald-200 rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 border-t pt-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-black text-slate-900 flex items-center gap-2"><span>📊</span> התקדמות לפי ימים</h3>
+                    <button onclick="clearHistory()" class="text-xs text-red-500 hover:text-red-700 font-bold border border-red-200 px-3 py-1 rounded-lg">אפס היסטוריית גרפים</button>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="font-bold text-slate-700 mb-4 text-center">שיפור בכוח (חזרות)</h4>
+                        <div class="h-64"><canvas id="strength-chart"></canvas></div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="font-bold text-slate-700 mb-4 text-center">זמני ריצה (השאיפה: ירידה בזמנים)</h4>
+                        <div class="h-64"><canvas id="cardio-chart"></canvas></div>
                     </div>
                 </div>
             </div>
@@ -242,11 +268,14 @@
         const CUSTOM_KEY = 'pilot_custom_workouts';
         const NOTES_KEY = 'pilot_workout_notes';
         const FB_FEEDBACK_KEY = 'pilot_ai_feedback';
+        const HISTORY_KEY = 'pilot_progress_history';
         
         let db, auth, currentUser = null, isFirebaseActive = false;
-        let appState = { done: {}, custom: {}, profile: {}, notes: {}, aiFeedback: {} };
+        let appState = { done: {}, custom: {}, profile: {}, notes: {}, aiFeedback: {}, history: [] };
         let uiState = { month: 'march', filter: 'all', activeId: null };
         let chartInstance = null;
+        let strengthChartInstance = null;
+        let cardioChartInstance = null;
 
         const monthsData = [
             { id: 'january', label: 'ינואר' }, { id: 'february', label: 'פברואר' }, { id: 'march', label: 'מרץ' },
@@ -378,6 +407,7 @@
                     if(uiState.activeId) renderDay(uiState.activeId);
                     renderList();
                     updateProgress();
+                    if(!document.getElementById('view-profile').classList.contains('hidden')) renderProgressCharts();
                 }
             } catch(e) { console.error("Cloud load error:", e); }
         };
@@ -393,6 +423,7 @@
                 localStorage.setItem(NOTES_KEY, JSON.stringify(appState.notes));
                 localStorage.setItem(FB_FEEDBACK_KEY, JSON.stringify(appState.aiFeedback));
                 localStorage.setItem('pilot_profile', JSON.stringify(appState.profile));
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(appState.history));
             }
         };
 
@@ -402,8 +433,82 @@
             appState.notes = JSON.parse(localStorage.getItem(NOTES_KEY) || '{}');
             appState.aiFeedback = JSON.parse(localStorage.getItem(FB_FEEDBACK_KEY) || '{}');
             appState.profile = JSON.parse(localStorage.getItem('pilot_profile') || '{}');
+            appState.history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+            
+            // נתונים פיקטיביים כדי שהגרף לא ייראה ריק בהתחלה
+            if (appState.history.length === 0) {
+                appState.history = [
+                    { date: '10.1', pullups: 8, pushups: 35, burpees: 18, run3k: "14:30", run5k: "26:00" },
+                    { date: '15.2', pullups: 10, pushups: 45, burpees: 22, run3k: "13:45", run5k: "24:30" }
+                ];
+            }
+
             populateProfileInputs();
             renderList();
+        };
+
+        const timeToSeconds = (timeStr) => {
+            if (!timeStr) return 0;
+            const parts = timeStr.toString().split(':');
+            if (parts.length === 2) return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+            return parseInt(timeStr) * 60 || 0;
+        };
+
+        const secondsToTime = (seconds) => {
+            if (!seconds) return "0:00";
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        };
+
+        window.renderProgressCharts = () => {
+            if (!appState.history || appState.history.length === 0) return;
+
+            const labels = appState.history.map(h => h.date);
+            
+            const strengthCtx = document.getElementById('strength-chart').getContext('2d');
+            if (strengthChartInstance) strengthChartInstance.destroy();
+            strengthChartInstance = new Chart(strengthCtx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'מתח', data: appState.history.map(h => h.pullups || 0), borderColor: '#3b82f6', backgroundColor: '#3b82f6', tension: 0.3, borderWidth: 3 },
+                        { label: 'שכיבות סמיכה', data: appState.history.map(h => h.pushups || 0), borderColor: '#8b5cf6', backgroundColor: '#8b5cf6', tension: 0.3, borderWidth: 3 },
+                        { label: 'סמוך קומים', data: appState.history.map(h => h.burpees || 0), borderColor: '#f59e0b', backgroundColor: '#f59e0b', tension: 0.3, borderWidth: 3 }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            const cardioCtx = document.getElementById('cardio-chart').getContext('2d');
+            if (cardioChartInstance) cardioChartInstance.destroy();
+            cardioChartInstance = new Chart(cardioCtx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'ריצת 3 ק"מ', data: appState.history.map(h => timeToSeconds(h.run3k)), borderColor: '#10b981', backgroundColor: '#10b981', tension: 0.3, borderWidth: 3 },
+                        { label: 'ריצת 5 ק"מ', data: appState.history.map(h => timeToSeconds(h.run5k)), borderColor: '#0ea5e9', backgroundColor: '#0ea5e9', tension: 0.3, borderWidth: 3 }
+                    ]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            ticks: { callback: function(value) { return secondsToTime(value); } }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.dataset.label + ': ' + secondsToTime(context.raw); }
+                            }
+                        }
+                    }
+                }
+            });
         };
 
         window.switchView = (view) => {
@@ -411,6 +516,13 @@
             document.getElementById('view-profile').classList.toggle('hidden', view !== 'profile');
             document.getElementById('nav-dashboard').classList.toggle('border-blue-300', view === 'dashboard');
             document.getElementById('nav-profile').classList.toggle('border-blue-300', view === 'profile');
+            
+            if (view === 'profile') {
+                // הצג את התאריך של היום בשדה "תאריך מדידה" אוטומטית
+                const today = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+                document.getElementById('prof-date').value = today;
+                setTimeout(renderProgressCharts, 100);
+            }
         };
 
         window.saveProfile = () => {
@@ -419,7 +531,56 @@
                 pullups: document.getElementById('prof-pullups').value, pushups: document.getElementById('prof-pushups').value, burpees: document.getElementById('prof-burpees').value,
                 run3k: document.getElementById('prof-run3k').value, run5k: document.getElementById('prof-run5k').value, sim: document.getElementById('prof-sim').value
             };
+            
+            // קריאת התאריך שהמשתמש הזין. אם ריק - מציב את תאריך היום
+            let customDate = document.getElementById('prof-date').value.trim();
+            if(!customDate) customDate = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+            
+            const currentStats = { ...appState.profile, date: customDate };
+            
+            // בודק אם כבר יש רישום ליום הספציפי שנבחר (אם כן, דורס אותו. אם לא, מוסיף)
+            const existingIndex = appState.history.findIndex(h => h.date === customDate);
+            if (existingIndex >= 0) {
+                appState.history[existingIndex] = currentStats;
+            } else {
+                appState.history.push(currentStats);
+            }
+
+            // פונקציית מיון קטנה כדי שהגרף תמיד יהיה כרונולוגי גם אם מכניסים תאריך ישן
+            appState.history.sort((a, b) => {
+                let [dayA, monthA] = a.date.split('.').map(Number);
+                let [dayB, monthB] = b.date.split('.').map(Number);
+                if (monthA !== monthB) return (monthA || 0) - (monthB || 0);
+                return (dayA || 0) - (dayB || 0);
+            });
+
             syncData();
+
+            if (!document.getElementById('view-profile').classList.contains('hidden')) {
+                renderProgressCharts();
+            }
+            
+            // מראה למשתמש הודעה ויזואלית קטנה שהשמירה הצליחה
+            const btn = document.querySelector('button[onclick="saveProfile()"]');
+            const originalText = btn.innerText;
+            btn.innerText = "נשמר בהצלחה! ✓";
+            btn.classList.replace('bg-blue-600', 'bg-emerald-500');
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.replace('bg-emerald-500', 'bg-blue-600');
+            }, 2000);
+        };
+
+        window.clearHistory = () => {
+            if(confirm("האם אתה בטוח שברצונך לאפס את היסטוריית הגרפים? (הפעולה לא תמחוק את הפרופיל שלך, רק את ההיסטוריה)")) {
+                appState.history = [];
+                syncData();
+                renderProgressCharts();
+                
+                // מנקה את הגרפים הויזואליים
+                if(strengthChartInstance) strengthChartInstance.destroy();
+                if(cardioChartInstance) cardioChartInstance.destroy();
+            }
         };
 
         const populateProfileInputs = () => {
@@ -499,13 +660,11 @@
             }).join('');
         };
 
-        // הפונקציה המעודכנת הכוללת גלילה אוטומטית למסכים קטנים
         window.selectDay = (id) => {
             uiState.activeId = id;
             renderList();
             renderDay(id);
             
-            // Auto-scroll on mobile
             if (window.innerWidth < 1024) {
                 setTimeout(() => {
                     document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -802,5 +961,3 @@
     </script>
 </body>
 </html>
-
-
