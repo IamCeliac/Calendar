@@ -164,7 +164,7 @@
             <section class="grid lg:grid-cols-12 gap-6 items-start">
                 
                 <!-- Left: Timeline -->
-                <div class="lg:col-span-5 bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden flex flex-col h-[800px]">
+                <div class="lg:col-span-5 bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden flex flex-col h-[400px] lg:h-[800px]">
                     <div class="p-3 bg-slate-50 border-b border-slate-200 flex gap-2 overflow-x-auto no-scrollbar" id="month-tabs">
                         <!-- JS Generated -->
                     </div>
@@ -526,6 +526,12 @@
             uiState.activeId = id;
             renderList();
             renderDay(id);
+            // גלילה אוטומטית בטלפון לחלונית הפירוט
+            if (window.innerWidth < 1024) {
+                setTimeout(() => {
+                    document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
         };
 
         const renderDay = (id) => {
@@ -828,6 +834,7 @@
     </script>
 </body>
 </html>
+
 
 
 
