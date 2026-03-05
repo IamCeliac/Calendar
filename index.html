@@ -16,61 +16,145 @@
             color: #1e293b;
         }
 
-        .chart-container { position: relative; width: 100%; height: 250px; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+        }
 
-        .day-card.active { border: 2px solid #1e3a8a; background-color: #f1f5f9; }
-        .day-card.completed { background-color: #f0fdf4; border-right: 6px solid #10b981; }
+        .day-card.active {
+            border: 2px solid #1e3a8a;
+            background-color: #f1f5f9;
+        }
 
-        #bot-window, #timer-widget, #settings-modal {
+        .day-card.completed {
+            background-color: #f0fdf4;
+            border-right: 6px solid #10b981;
+        }
+
+        #timer-widget, #settings-modal {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             transform: translateY(20px);
             opacity: 0;
             pointer-events: none;
         }
-        #bot-window.open, #timer-widget.open, #settings-modal.open { 
-            transform: translateY(0); 
-            opacity: 1; 
-            pointer-events: auto; 
+
+            #timer-widget.open, #settings-modal.open {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+        #settings-modal {
+            transform: scale(0.95);
         }
-        
-        #settings-modal { transform: scale(0.95); }
-        #settings-modal.open { transform: scale(1); }
 
-        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+            #settings-modal.open {
+                transform: scale(1);
+            }
 
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
         /* Types colors */
-        .text-cat-strength { color: #f59e0b; }
-        .text-cat-legs { color: #8b5cf6; }
-        .text-cat-cardio { color: #3b82f6; }
-        .text-cat-intervals { color: #ef4444; }
-        .text-cat-simulation { color: #10b981; }
-        .text-cat-exam { color: #dc2626; }
-        
-        .bg-cat-strength { background-color: #fef3c7; border-color: #f59e0b; }
-        .bg-cat-legs { background-color: #ede9fe; border-color: #8b5cf6; }
-        .bg-cat-cardio { background-color: #dbeafe; border-color: #3b82f6; }
-        .bg-cat-intervals { background-color: #fee2e2; border-color: #ef4444; }
-        .bg-cat-simulation { background-color: #d1fae5; border-color: #10b981; }
-        .bg-cat-exam { background-color: #fef2f2; border-color: #dc2626; }
-        .bg-cat-rest { background-color: #f1f5f9; border-color: #94a3b8; }
+        .text-cat-strength {
+            color: #f59e0b;
+        }
+
+        .text-cat-legs {
+            color: #8b5cf6;
+        }
+
+        .text-cat-cardio {
+            color: #3b82f6;
+        }
+
+        .text-cat-intervals {
+            color: #ef4444;
+        }
+
+        .text-cat-simulation {
+            color: #10b981;
+        }
+
+        .text-cat-exam {
+            color: #dc2626;
+        }
+
+        .bg-cat-strength {
+            background-color: #fef3c7;
+            border-color: #f59e0b;
+        }
+
+        .bg-cat-legs {
+            background-color: #ede9fe;
+            border-color: #8b5cf6;
+        }
+
+        .bg-cat-cardio {
+            background-color: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        .bg-cat-intervals {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+        }
+
+        .bg-cat-simulation {
+            background-color: #d1fae5;
+            border-color: #10b981;
+        }
+
+        .bg-cat-exam {
+            background-color: #fef2f2;
+            border-color: #dc2626;
+        }
+
+        .bg-cat-rest {
+            background-color: #f1f5f9;
+            border-color: #94a3b8;
+        }
     </style>
 </head>
 <body class="antialiased">
 
     <nav class="bg-blue-900 text-white shadow-xl sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
-            <div class="flex items-center gap-3">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center overflow-x-auto no-scrollbar">
+            <div class="flex items-center gap-3 shrink-0 ml-4">
                 <span class="text-2xl">✈️</span>
                 <span class="font-bold text-xl tracking-tighter">בקרת אימונים: טיס</span>
             </div>
-            <div class="flex items-center gap-4 text-sm font-medium">
+            <div class="flex items-center gap-4 text-sm font-medium shrink-0">
                 <button onclick="switchView('dashboard')" id="nav-dashboard" class="text-blue-300 hover:text-white transition-colors border-b-2 border-transparent pb-1 border-blue-300">לוח בקרה</button>
                 <button onclick="switchView('profile')" id="nav-profile" class="text-white hover:text-blue-300 transition-colors border-b-2 border-transparent pb-1">פרופיל מדדים</button>
-                <button onclick="toggleSettings()" class="text-xl hover:text-blue-300 transition-colors" title="הגדרות סנכרון">⚙️</button>
+                <button onclick="switchView('ai')" id="nav-ai" class="text-white hover:text-blue-300 transition-colors border-b-2 border-transparent pb-1 flex items-center gap-1"><span class="hidden sm:inline">מאמן</span> 🤖</button>
+                <div class="w-px h-6 bg-blue-700 mx-1"></div>
+                <button onclick="switchView('nutrition')" id="nav-nutrition" class="text-white hover:text-blue-300 transition-colors border-b-2 border-transparent pb-1">תזונה 🍎</button>
+                <button onclick="switchView('garmin')" id="nav-garmin" class="text-white hover:text-blue-300 transition-colors border-b-2 border-transparent pb-1">Garmin ⌚</button>
+                <button onclick="toggleSettings()" class="text-xl hover:text-blue-300 transition-colors mr-1" title="הגדרות סנכרון">⚙️</button>
             </div>
         </div>
     </nav>
@@ -79,8 +163,8 @@
         <div class="bg-white rounded-3xl p-8 max-w-lg w-full shadow-2xl relative">
             <button onclick="toggleSettings()" class="absolute top-4 left-4 text-slate-400 hover:text-slate-800 text-2xl">✕</button>
             <h2 class="text-2xl font-black mb-4">הגדרות מערכת וסנכרון ענן</h2>
-            <p class="text-sm text-slate-600 mb-6">מכיוון שהאתר רץ על שרת מקומי במק שלך, הזן את פרטי ה-API כאן כדי לאפשר לבוט ה-AI לעבוד ולסנכרן נתונים לאייפון.</p>
-            
+            <p class="text-sm text-slate-600 mb-6">הזן את פרטי ה-API כאן כדי לאפשר לבוט ה-AI לעבוד ולסנכרן נתונים לאייפון.</p>
+
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-1">Gemini API Key (עבור הבוט ומשוב AI)</label>
@@ -96,7 +180,102 @@
     </div>
 
     <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
-        
+
+        <div id="view-dashboard" class="space-y-6">
+
+            <section class="bg-white rounded-3xl shadow-lg border border-slate-200 p-6">
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+
+                    <div class="flex-1 w-full">
+                        <h3 class="font-black text-slate-800 text-xl mb-4 flex items-center gap-2"><span>🔋</span> מדד מוכנות יומי (Readiness)</h3>
+                        <p class="text-sm text-slate-500 mb-4">הזן את הנתונים כדי לדעת עד כמה הגוף שלך מוכן לאימון של היום.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <div>
+                                <label class="text-xs font-bold text-slate-600">שעות שינה הלילה</label>
+                                <input type="number" id="read-sleep" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold" placeholder="למשל: 7.5">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-slate-600">הרגשה כללית (1-10)</label>
+                                <input type="number" id="read-feel" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold" min="1" max="10" placeholder="1 = סחוט, 10 = בשיא">
+                            </div>
+                            <div>
+                                <button onclick="calcReadiness()" class="w-full bg-indigo-600 text-white font-black py-3 rounded-xl hover:bg-indigo-700 transition-colors shadow-md">חשב מוכנות</button>
+                            </div>
+                        </div>
+                        <div id="readiness-result" class="mt-4 hidden transition-all duration-300"></div>
+                    </div>
+
+                    <div class="w-full md:w-1/3 bg-blue-50 rounded-2xl border border-blue-100 p-6 flex flex-col justify-center text-center relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl opacity-10">💧</div>
+                        <h3 class="font-bold text-blue-800 mb-2">מעקב שתיית מים</h3>
+                        <p class="text-xs text-blue-600 mb-4">היעד: 10 כוסות ביום למניעת פציעות</p>
+                        <div class="text-4xl font-black text-blue-700 mb-4 tracking-wider" dir="ltr"><span id="water-display">0</span>/10</div>
+                        <div class="flex gap-2 justify-center">
+                            <button onclick="updateWater(1)" class="bg-blue-600 text-white w-12 h-12 rounded-full font-black text-xl hover:bg-blue-700 shadow-md">+</button>
+                            <button onclick="updateWater(-1)" class="bg-blue-200 text-blue-800 w-12 h-12 rounded-full font-black text-xl hover:bg-blue-300">-</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="text-right">
+                    <h1 id="month-title-display" class="text-3xl font-black text-slate-900">חודש מרץ</h1>
+                    <p class="text-slate-500 font-medium">תוכנית 100% | הדרך לטיס עוברת כאן</p>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 min-w-[240px] text-center">
+                    <div class="flex justify-between text-xs font-bold text-emerald-600 mb-2 uppercase">
+                        <span>התקדמות חודשית</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="w-full bg-emerald-200 rounded-full h-3 mb-2">
+                        <div id="progress-bar" class="bg-emerald-600 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
+                    </div>
+                    <div id="progress-stats" class="text-emerald-900 font-black text-xl">0/0 ימים הושלמו</div>
+                </div>
+            </section>
+
+            <section class="grid lg:grid-cols-12 gap-6 items-start">
+
+                <div class="lg:col-span-5 bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden flex flex-col h-[450px] lg:h-[800px]">
+                    <div class="p-3 bg-slate-50 border-b border-slate-200 flex gap-2 overflow-x-auto no-scrollbar" id="month-tabs">
+                    </div>
+                    <div class="p-4 border-b border-slate-100 flex gap-2">
+                        <select id="type-filter" class="flex-1 bg-slate-100 border-none rounded-xl p-3 font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="all">כל סוגי האימונים</option>
+                            <option value="strength">כוח פלג עליון</option>
+                            <option value="legs">רגליים ואלונקות</option>
+                            <option value="cardio">סיבולת ריצה</option>
+                            <option value="intervals">אינטרוולים עצימים</option>
+                            <option value="simulation">סימולציית גיבוש</option>
+                            <option value="exam">בגרויות ומיון</option>
+                        </select>
+                    </div>
+                    <div id="timeline-list" class="flex-1 overflow-y-auto p-4 space-y-3">
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 space-y-6 flex flex-col h-full">
+                    <div id="main-content" class="bg-white rounded-3xl shadow-lg border border-slate-200 p-6 md:p-8 min-h-[500px] relative flex flex-col">
+                        <div id="empty-state" class="m-auto text-center text-slate-400 space-y-4">
+                            <p class="text-6xl">🏃‍♂️</p>
+                            <p class="text-xl font-bold">בחר יום מהרשימה כדי להתחיל באימון</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center gap-8 shrink-0">
+                        <div class="flex-1 text-right">
+                            <h3 class="text-xl font-extrabold mb-2">חלוקת עומסים חודשית</h3>
+                            <p class="text-blue-200 text-sm">מעקב אחר האיזון בין אירובי לכוח.</p>
+                        </div>
+                        <div class="w-48 h-48 shrink-0">
+                            <canvas id="type-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
         <section id="view-profile" class="hidden bg-white rounded-3xl shadow-lg border border-slate-200 p-8 animate-fade-in">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b pb-4 gap-4">
                 <div>
@@ -113,7 +292,7 @@
                     </button>
                 </div>
             </div>
-            
+
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                     <h3 class="font-bold text-slate-700 mb-4 flex items-center gap-2"><span>👤</span> נתונים פיזיים</h3>
@@ -148,7 +327,7 @@
                     <h3 class="text-2xl font-black text-slate-900 flex items-center gap-2"><span>📊</span> התקדמות לפי ימים</h3>
                     <button onclick="clearHistory()" class="text-xs text-red-500 hover:text-red-700 font-bold border border-red-200 px-3 py-1 rounded-lg">אפס היסטוריית גרפים</button>
                 </div>
-                
+
                 <div class="grid lg:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                         <h4 class="font-bold text-slate-700 mb-4 text-center">שיפור בכוח (חזרות)</h4>
@@ -162,69 +341,101 @@
             </div>
         </section>
 
-        <div id="view-dashboard" class="space-y-6">
-            
-            <section class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="text-right">
-                    <h1 id="month-title-display" class="text-3xl font-black text-slate-900">חודש מרץ</h1>
-                    <p class="text-slate-500 font-medium">תוכנית 100% | הדרך לטיס עוברת כאן</p>
-                </div>
-                <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 min-w-[240px] text-center">
-                    <div class="flex justify-between text-xs font-bold text-emerald-600 mb-2 uppercase">
-                        <span>התקדמות חודשית</span>
-                        <span id="progress-percent">0%</span>
-                    </div>
-                    <div class="w-full bg-emerald-200 rounded-full h-3 mb-2">
-                        <div id="progress-bar" class="bg-emerald-600 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
-                    </div>
-                    <div id="progress-stats" class="text-emerald-900 font-black text-xl">0/0 ימים הושלמו</div>
-                </div>
-            </section>
+        <div id="view-ai" class="hidden">
+            <section class="bg-white rounded-3xl shadow-lg border border-slate-200 p-6 flex flex-col md:flex-row gap-6 h-[75vh] min-h-[600px] animate-fade-in">
 
-            <section class="grid lg:grid-cols-12 gap-6 items-start">
-                
-                <div class="lg:col-span-5 bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden flex flex-col h-[450px] lg:h-[800px]">
-                    <div class="p-3 bg-slate-50 border-b border-slate-200 flex gap-2 overflow-x-auto no-scrollbar" id="month-tabs">
-                        </div>
-                    <div class="p-4 border-b border-slate-100 flex gap-2">
-                        <select id="type-filter" class="flex-1 bg-slate-100 border-none rounded-xl p-3 font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500">
-                            <option value="all">כל סוגי האימונים</option>
-                            <option value="strength">כוח פלג עליון</option>
-                            <option value="legs">רגליים ואלונקות</option>
-                            <option value="cardio">סיבולת ריצה</option>
-                            <option value="intervals">אינטרוולים עצימים</option>
-                            <option value="simulation">סימולציית גיבוש</option>
-                            <option value="exam">בגרויות ומיון</option>
-                        </select>
+                <div class="w-full md:w-1/4 flex flex-col border-b md:border-b-0 md:border-l border-slate-200 pb-4 md:pb-0 md:pl-4 space-y-4 shrink-0 h-48 md:h-full">
+                    <button onclick="startNewChat()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-black py-4 rounded-xl border border-blue-200 transition-colors shadow-sm flex items-center justify-center gap-2">
+                        <span class="text-xl">+</span> שיחה חדשה
+                    </button>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">היסטוריית שיחות</div>
+                    <div id="chat-list" class="flex-1 overflow-y-auto space-y-2 no-scrollbar flex flex-col">
                     </div>
-                    <div id="timeline-list" class="flex-1 overflow-y-auto p-4 space-y-3">
-                        </div>
                 </div>
 
-                <div class="lg:col-span-7 space-y-6">
-                    <div id="main-content" class="bg-white rounded-3xl shadow-lg border border-slate-200 p-6 md:p-8 min-h-[500px] relative flex flex-col">
-                        <div id="empty-state" class="m-auto text-center text-slate-400 space-y-4">
-                            <p class="text-6xl">🏃‍♂️</p>
-                            <p class="text-xl font-bold">בחר יום מהרשימה כדי להתחיל באימון</p>
+                <div class="w-full md:w-3/4 flex flex-col h-full overflow-hidden">
+                    <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-4 shrink-0">
+                        <div>
+                            <h2 class="text-2xl font-black text-slate-900 flex items-center gap-2"><span>🤖</span> <span id="current-chat-title">מאמן אישי</span></h2>
+                            <p class="text-slate-500 text-sm">המאמן הווירטואלי שלך</p>
                         </div>
+                        <button onclick="clearCurrentChat()" class="text-xs text-red-500 hover:bg-red-50 border border-red-100 px-3 py-1 rounded-lg font-bold transition-colors">מחק שיחה זו</button>
                     </div>
 
-                    <div class="bg-blue-900 rounded-3xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center gap-8">
-                        <div class="flex-1 text-right">
-                            <h3 class="text-xl font-extrabold mb-2">חלוקת עומסים חודשית</h3>
-                            <p class="text-blue-200 text-sm">מעקב אחר האיזון בין אירובי לכוח.</p>
-                        </div>
-                        <div class="w-48 h-48 shrink-0">
-                            <canvas id="type-chart"></canvas>
-                        </div>
+                    <div id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col mb-4">
+                    </div>
+
+                    <div id="bot-status" class="hidden h-1 bg-blue-100 overflow-hidden rounded-full mb-2 shrink-0">
+                        <div class="h-full bg-blue-600 w-1/3 animate-[slide_1.5s_infinite]"></div>
+                    </div>
+
+                    <div class="mt-auto flex gap-3 shrink-0">
+                        <input id="chat-input" type="text" placeholder="הקלד הודעה למאמן..." class="flex-1 border-2 border-slate-200 rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500 text-lg transition-all" onkeypress="if(event.key === 'Enter') sendToGemini()">
+                        <button onclick="sendToGemini()" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-md text-lg whitespace-nowrap">שלח</button>
                     </div>
                 </div>
             </section>
         </div>
+
+        <section id="view-nutrition" class="hidden bg-white rounded-3xl shadow-lg border border-slate-200 p-8 animate-fade-in">
+            <div class="max-w-3xl">
+                <h2 class="text-3xl font-black text-slate-900 mb-2">יומן תזונה חכם (AI)</h2>
+                <p class="text-slate-500 mb-6 border-b pb-4">תאר ל-AI מה אכלת והוא יחשב עבורך קלוריות ופקרונוטריאנטים בצורה אוטומטית.</p>
+
+                <textarea id="food-input" rows="4" class="w-full bg-slate-50 text-slate-900 border-2 border-slate-200 rounded-xl p-4 mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-lg" placeholder="לדוגמה: לארוחת צוהריים אכלתי 200 גרם חזה עוף, כוס אורז וסלט ירקות קטן..."></textarea>
+
+                <button onclick="analyzeFood()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 px-8 rounded-xl transition w-full shadow-md text-lg flex justify-center items-center gap-2">
+                    <span>נתח ארוחה וחשב ערכים</span> 🥗
+                </button>
+
+                <div id="nutrition-loading" class="hidden text-center text-emerald-600 font-bold mt-4 animate-pulse">ה-AI מנתח את הארוחה...</div>
+
+                <div id="nutrition-results" class="mt-8 hidden bg-emerald-50 border-2 border-emerald-100 p-6 rounded-2xl">
+                    <h4 class="text-xl font-black mb-4 text-emerald-900">סיכום תזונתי שהופק:</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-emerald-100">
+                            <span class="block text-slate-500 text-sm font-bold mb-1">קלוריות</span>
+                            <strong id="res-cal" class="text-3xl text-slate-800">0</strong>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-emerald-100">
+                            <span class="block text-slate-500 text-sm font-bold mb-1">חלבון (גרם)</span>
+                            <strong id="res-pro" class="text-3xl text-blue-600">0</strong>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-emerald-100">
+                            <span class="block text-slate-500 text-sm font-bold mb-1">פחמימות (גרם)</span>
+                            <strong id="res-car" class="text-3xl text-amber-500">0</strong>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-emerald-100">
+                            <span class="block text-slate-500 text-sm font-bold mb-1">שומן (גרם)</span>
+                            <strong id="res-fat" class="text-3xl text-red-500">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-garmin" class="hidden bg-white rounded-3xl shadow-lg border border-slate-200 p-8 animate-fade-in">
+            <div class="max-w-2xl">
+                <h2 class="text-3xl font-black text-slate-900 mb-2">סנכרון חומרה (Garmin API)</h2>
+                <p class="text-slate-500 mb-6 border-b pb-4">העלה קובץ פעילות (.FIT) מהשעון לניתוח נתוני הפעילות שלך ישירות לדפדפן.</p>
+
+                <div class="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center hover:bg-slate-100 transition-colors">
+                    <p class="text-4xl mb-4">📁</p>
+                    <label class="block text-lg font-bold text-slate-700 mb-2 cursor-pointer">בחר קובץ FIT מהמחשב</label>
+                    <input type="file" id="fit-upload" accept=".fit" class="block w-full max-w-sm mx-auto text-sm text-slate-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-blue-600 file:text-white hover:file:bg-blue-700 cursor-pointer">
+                </div>
+
+                <div id="garmin-data" class="mt-6 text-lg font-medium text-slate-700"></div>
+            </div>
+        </section>
+
     </main>
 
-    <div id="timer-widget" class="fixed bottom-28 right-6 z-50 bg-slate-900 text-white p-4 rounded-3xl shadow-2xl border-2 border-slate-700 flex flex-col items-center gap-2">
-        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">טיימר עבודה/מנוחה</div>
+    <div id="timer-widget" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white p-4 rounded-3xl shadow-2xl border-2 border-slate-700 flex flex-col items-center gap-2">
+        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest flex justify-between w-full px-2">
+            <span>טיימר חכם 🔊</span>
+            <button onclick="timerObj.toggleMode()" id="timer-phase" class="text-blue-400 hover:text-blue-300">⏱️ מעבר לאינטרוולים</button>
+        </div>
         <div id="timer-display" class="text-4xl font-black font-mono tracking-wider text-emerald-400">00:00</div>
         <div class="flex gap-2 mt-2">
             <button onclick="timerObj.start()" class="bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-xl font-bold transition-colors">התחל</button>
@@ -234,79 +445,82 @@
         <button onclick="toggleTimer()" class="absolute -top-3 -left-3 bg-red-500 rounded-full w-8 h-8 flex items-center justify-center shadow-lg font-bold">✕</button>
     </div>
 
-  <div class="fixed bottom-6 left-6 z-[100] flex flex-col items-end gap-4 pointer-events-none">
-        <div id="bot-window" class="w-80 md:w-96 bg-white rounded-3xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden">
-            <div class="bg-blue-600 p-4 text-white font-bold flex justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl">🤖</span>
-                    <span>Gemini: מאמן אישי</span>
-                </div>
-                <button onclick="toggleBot()" class="hover:bg-blue-500 rounded-lg p-1 transition-colors pointer-events-auto">✕</button>
-            </div>
-            <div id="chat-box" class="h-80 overflow-y-auto p-4 space-y-3 bg-slate-50 text-sm flex flex-col">
-                <div class="bg-blue-100 text-blue-900 p-3 rounded-2xl self-start ml-8 shadow-sm">אהלן! אני כאן. תשאל אותי על אימונים, תבקש לשנות עומסים, או פשוט תגיד לי איך הלך האימון ואתן פידבק!</div>
-            </div>
-            <div id="bot-status" class="hidden h-1 bg-blue-100 overflow-hidden">
-                <div class="h-full bg-blue-600 w-1/3 animate-[slide_1.5s_infinite]"></div>
-            </div>
-            <div class="p-3 bg-white border-t flex gap-2">
-                <input id="chat-input" type="text" placeholder="כתוב הודעה למאמן..." class="flex-1 border-slate-200 border rounded-xl px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500 pointer-events-auto" onkeypress="if(event.key === 'Enter') sendToGemini()">
-                <button onclick="sendToGemini()" class="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-blue-700 transition-colors pointer-events-auto">שלח</button>
-            </div>
-        </div>
-        <button onclick="toggleBot()" class="bg-blue-600 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-3xl hover:scale-110 active:scale-95 transition-all pointer-events-auto">
-            🤖
-        </button>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        // שימוש בפארסר רשמי לקובצי FIT
+        import fitFileParser from 'https://cdn.jsdelivr.net/npm/fit-file-parser@2.3.3/+esm';
+        window.FitParser = fitFileParser;
 
         const DONE_KEY = 'pilot_done_days';
         const CUSTOM_KEY = 'pilot_custom_workouts';
         const NOTES_KEY = 'pilot_workout_notes';
         const FB_FEEDBACK_KEY = 'pilot_ai_feedback';
         const HISTORY_KEY = 'pilot_progress_history';
-        
+        const CHATS_KEY = 'pilot_ai_chats';
+        const ACTIVE_CHAT_KEY = 'pilot_active_chat';
+        const WATER_KEY = 'pilot_daily_water';
+        const WATER_DATE_KEY = 'pilot_water_date';
+
         let db, auth, currentUser = null, isFirebaseActive = false;
-        let appState = { done: {}, custom: {}, profile: {}, notes: {}, aiFeedback: {}, history: [] };
+
+        let appState = {
+            done: {},
+            custom: {},
+            profile: {},
+            notes: {},
+            aiFeedback: {},
+            history: [],
+            missedQueue: [],
+            chats: [],
+            activeChatId: null,
+            water: 0
+        };
+
         let uiState = { month: 'march', filter: 'all', activeId: null };
         let chartInstance = null;
         let strengthChartInstance = null;
         let cardioChartInstance = null;
 
+        // הוסרו חודשים ינואר ופברואר
         const monthsData = [
-            { id: 'january', label: 'ינואר' }, { id: 'february', label: 'פברואר' }, { id: 'march', label: 'מרץ' },
-            { id: 'april', label: 'אפריל' }, { id: 'may', label: 'מאי' }, { id: 'june', label: 'יוני' },
-            { id: 'july', label: 'יולי' }, { id: 'august', label: 'אוגוסט' }, { id: 'september', label: 'ספטמבר' },
-            { id: 'october', label: 'אוקטובר' }, { id: 'november', label: 'נובמבר' }, { id: 'december', label: 'דצמבר' }
+            { id: 'march', label: 'מרץ' },
+            { id: 'april', label: 'אפריל' },
+            { id: 'may', label: 'מאי' },
+            { id: 'june', label: 'יוני' },
+            { id: 'july', label: 'יולי' },
+            { id: 'august', label: 'אוגוסט' },
+            { id: 'september', label: 'ספטמבר' },
+            { id: 'october', label: 'אוקטובר' },
+            { id: 'november', label: 'נובמבר' },
+            { id: 'december', label: 'דצמבר' }
         ];
 
         const baseWorkouts = {};
         monthsData.forEach(m => baseWorkouts[m.id] = []);
 
         const generateWorkouts = () => {
+            // מרץ
             for (let i = 4; i <= 31; i++) {
                 let type = ['strength', 'legs', 'cardio', 'intervals', 'simulation'][i % 5];
                 let title = "", details = "";
-                
+
                 if (i === 12) { type = 'rest'; title = "טרום מתכונת מתמטיקה"; details = "מנוחה מלאה למוח ולגוף."; }
                 else if (i === 15) { type = 'exam'; title = "דפ\"ר חוזר"; details = "מבחן דפ\"ר.\nבערב:\n100 שכיבות סמיכה לשחרור."; }
                 else if (i === 26) { type = 'rest'; title = "שבירת ריכוז"; details = "2 סטים מקסימום מתח."; }
                 else if (i === 27) { type = 'exam'; title = "מתכונת מתמטיקה"; details = "מבחן מתכונת. מנוחה."; }
                 else {
-                    if(type === 'strength') { 
-                        title = "כוח פלג גוף עליון"; 
+                    if (type === 'strength') {
+                        title = "כוח פלג גוף עליון";
                         details = "⏱️ זמן מנוחה בין סטים: 90 שניות.\n\nחימום: 5 דק' דילגית.\n1. מתח [<a href='https://www.youtube.com/results?search_query=perfect+pullup+form' target='_blank' class='text-blue-500 underline'>🎥 וידאו</a>]: 4 סטים עד כמעט כשל.\n2. מקבילים: 4 סטים של 12.\n3. סמיכה יהלום: 4 סטים של 20.\nשחרור: מתיחות כתפיים.";
-                    } else if(type === 'legs') {
+                    } else if (type === 'legs') {
                         title = "רגליים ואלונקות";
                         details = "⏱️ זמן מנוחה: 60 שניות.\n\nעם תיק 10 ק\"ג:\n1. סקוואט בולגרי [<a href='https://www.youtube.com/results?search_query=bulgarian+split+squat' target='_blank' class='text-blue-500 underline'>🎥 וידאו</a>]: 4 סטים 15 לכל רגל.\n2. לאנג'ים: 4 סטים 20 צעדים.\n3. ישיבת קיר: 3 סטים 90 שניות מנוחה סטטית.\nליבה: 3 סטים פלאנק 2 דק'.";
-                    } else if(type === 'cardio') {
+                    } else if (type === 'cardio') {
                         title = "ריצת נפח 5 ק\"מ";
                         details = "⏱️ זמן עבודה ברצף: ~25 דק'.\n\nריצה רציפה 5 ק\"מ. קצב יציב (4:50-5:20). ללא מנוחה.\nמיד בסיום: 100 שכיבות סמיכה.";
-                    } else if(type === 'intervals') {
+                    } else if (type === 'intervals') {
                         title = "אינטרוולים עצימים";
                         details = "⏱️ זמן מנוחה: ההליכה חזרה בלבד.\n\nחימום: 1.5 ק\"מ קל.\n1. 8 ספרינטים של 100 מטר בעלייה (100% כוח).\n2. הליכה איטית חזרה לנקודת הזינוק.";
                     } else {
@@ -317,20 +531,36 @@
                 baseWorkouts.march.push({ id: `m${i}`, day: i, date: `${i}.3`, title, type, details, icon: getIcon(type) });
             }
 
+            // אפריל (עודכן עם פירוט מלא של סטים ומנוחות)
             for (let i = 1; i <= 30; i++) {
                 let type = ['intervals', 'strength', 'legs', 'cardio', 'simulation'][i % 5];
                 let title = "", details = "";
-                
-                if ([1,9,24,29].includes(i)) { type = 'exam'; title = "מתכונת במתמטיקה"; details = "מבחן מתכונת. מנוחה מלאה."; }
+
+                if ([1, 9, 24, 29].includes(i)) { type = 'exam'; title = "מתכונת במתמטיקה"; details = "מבחן מתכונת. מנוחה מלאה."; }
                 else if (i >= 12 && i <= 16) { type = 'gadna'; title = "גדנ\"ע שדה בוקר"; details = "שבוע שטח מלא. האימון הוא המסעות והמשמעת."; }
-                else if (i === 20) { type = 'strength'; title = "כוח והקדשה (ערב זיכרון)"; details = "100 שכיבות סמיכה רצוף + מתח עד כשל."; }
-                else if (i === 21) { type = 'cardio'; title = "ריצת זיכרון"; details = "ריצת 6 ק\"מ ללא מוזיקה."; }
+                else if (i === 20) { type = 'strength'; title = "כוח והקדשה (ערב זיכרון)"; details = "100 שכיבות סמיכה רצוף.\nמיד לאחר מכן: מתח עד כשל (מנוחה של 2 דקות בין סטים, סה\"כ 3 סטים)."; }
+                else if (i === 21) { type = 'cardio'; title = "ריצת זיכרון"; details = "ריצת 6 ק\"מ בקצב של 5:15 לקילומטר.\nללא מנוחה, ללא מוזיקה."; }
                 else {
-                    if (type === 'legs') { title = "רגליים אלונקות (משקל)"; details = "⏱️ מנוחה: 60 שנ'.\nתיק 15 ק\"ג: 4 סטים סקוואט, 4 סטים לאנג'ים, ישיבת קיר 100 שנ'."; }
-                    else if (type === 'cardio') { title = "ריצת נפח 6 ק\"מ"; details = "ריצה רציפה 6 ק\"מ."; }
-                    else if (type === 'strength') { title = "כוח עליון מתפרץ"; details = "⏱️ מנוחה: 90 שנ'.\nמתח אקספלוסיבי, שכיבות סמיכה מחיאת כף."; }
-                    else if (type === 'intervals') { title = "אינטרוולים (10 ספרינטים)"; details = "10 ספרינטים 100 מטר ב-100% מאמץ."; }
-                    else { title = "סימולציית גיבוש"; details = "⏱️ מנוחה: 2 דק בין סבבים.\n6 סבבים רצופים של מעגל הכוח."; }
+                    if (type === 'legs') {
+                        title = "רגליים אלונקות (משקל)";
+                        details = "⏱️ מנוחה: 60 שנ' בין סטים.\n\nעם תיק 15 ק\"ג:\n1. סקוואט: 4 סטים של 20 חזרות.\n2. לאנג'ים: 4 סטים של 24 צעדים (12 לכל רגל).\n3. ישיבת קיר: 3 סטים של 100 שניות.\nליבה: 3 סטים של פלאנק, 2 דקות כל אחד.";
+                    }
+                    else if (type === 'cardio') {
+                        title = "ריצת נפח 6 ק\"מ";
+                        details = "⏱️ זמן עבודה ברצף: ~30 דק'.\n\nריצה רציפה 6 ק\"מ. קצב יציב (4:45-5:15).\nללא מנוחה.\nמיד בסיום (שחרור): 50 שכיבות סמיכה רחבות.";
+                    }
+                    else if (type === 'strength') {
+                        title = "כוח עליון מתפרץ";
+                        details = "⏱️ מנוחה: 90 שנ' בין סטים.\n\nחימום: 5 דק' ריצה קלה.\n1. מתח אקספלוסיבי (עד החזה): 4 סטים, 8 חזרות.\n2. שכיבות סמיכה מחיאת כף: 4 סטים, 15 חזרות.\n3. מקבילים: 4 סטים של 15 חזרות.\nשחרור: כפיפות בטן 4 סטים של 30 חזרות.";
+                    }
+                    else if (type === 'intervals') {
+                        title = "אינטרוולים (10 ספרינטים)";
+                        details = "⏱️ מנוחה: ההליכה חזרה לנקודת הזינוק (כ-45-60 שניות).\n\nחימום: 2 ק\"מ ריצה קלה.\n1. 10 ספרינטים של 100 מטר בעלייה ב-100% מאמץ.\n2. הליכה איטית חזרה למטה.\nשחרור: מתיחות רגליים יסודיות.";
+                    }
+                    else {
+                        title = "סימולציית גיבוש";
+                        details = "⏱️ מנוחה: 2 דקות בדיוק בין סבב לסבב.\n\n6 סבבים רצופים (ללא מנוחה פנימית בתוך הסבב):\n- 15 מתח\n- 30 סקוואט\n- 25 שכיבות סמיכה\n- 20 סמוך קומים\n- 60 שנ' פלאנק";
+                    }
                 }
                 baseWorkouts.april.push({ id: `a${i}`, day: i, date: `${i}.4`, title, type, details, icon: getIcon(type) });
             }
@@ -346,10 +576,81 @@
             return map[t] || t;
         };
 
+        // --- המלצת תזונה מתקפצת (התפוח) ---
+        window.showNutritionTip = (type, e) => {
+            e.stopPropagation();
+            const tips = {
+                cardio: "תדלוק אירובי: 2 תמרים 15 דק' לפני האימון. בסיום: מנת חלבון זמינה (יוגורט/טונה) בתוך חצי שעה.",
+                strength: "כוח: ארוחה המשלבת חלבון (25-30ג') ופחמימה עד שעתיים מסיום האימון (למשל: חזה עוף ואורז).",
+                intervals: "אינטרוולים: אל תאכל ארוחה כבדה! בננה קטנה או תמר 30 דק' לפני יספיקו. הרבה מים.",
+                simulation: "גיבוש: העמסת פחמימות מורכבות ערב קודם (פסטה/אורז). בבוקר פרוסת לחם עם ריבה. הקפדה על איזוטוני.",
+                legs: "רגליים: אימון ששורף המון גליקוגן. פחמימה מורכבת שעתיים לפני, וחלבון מיד אחרי.",
+                exam: "יום מיון: שוקולד קטן או אגוזים לזמינות אנרגטית למוח בזמן המבחנים.",
+                rest: "יום מנוחה: דגש על התאוששות. הקפד על לפחות 8-10 כוסות מים היום, וחלבון לבניית השריר."
+            };
+            alert("המלצת תזונה חכמה 🍎\n\n" + (tips[type] || tips.rest));
+        };
+
+        // --- חישוב המוכנות וניהול מים ---
+        window.calcReadiness = () => {
+            const sleep = parseFloat(document.getElementById('read-sleep').value) || 0;
+            const water = appState.water; // לוקח ממעקב המים
+            const feel = parseInt(document.getElementById('read-feel').value) || 0;
+
+            let score = 0;
+            score += Math.min(sleep / 8 * 40, 40);
+            score += Math.min(water / 10 * 20, 20);
+            score += (feel / 10) * 40;
+
+            score = Math.round(score);
+
+            const resDiv = document.getElementById('readiness-result');
+            resDiv.classList.remove('hidden');
+
+            let message = "";
+            let color = "";
+            if (score >= 80) {
+                message = "אתה בשיא! זמן לתת בראש באימון.";
+                color = "text-emerald-600 bg-emerald-50 border-emerald-200";
+            } else if (score >= 60) {
+                message = "מצב טוב. אפשר להתאמן כרגיל.";
+                color = "text-blue-600 bg-blue-50 border-blue-200";
+            } else {
+                message = "שים לב: הגוף שלך עייף. שקול אימון התאוששות או מנוחה.";
+                color = "text-amber-600 bg-amber-50 border-amber-200";
+            }
+
+            resDiv.innerHTML = `<div class="p-4 rounded-xl border ${color} font-bold text-lg text-center">ציון המוכנות שלך: ${score}/100<br><span class="text-sm font-normal">${message}</span></div>`;
+        };
+
+        window.updateWater = (amount) => {
+            appState.water += amount;
+            if (appState.water < 0) appState.water = 0;
+            document.getElementById('water-display').innerText = appState.water;
+            localStorage.setItem(WATER_KEY, appState.water);
+            localStorage.setItem(WATER_DATE_KEY, new Date().toLocaleDateString());
+
+            // עדכון שדה המים במוכנות אם הוא גלוי
+            const waterInput = document.getElementById('read-water');
+            if(waterInput) waterInput.value = appState.water;
+        };
+
+        const loadWaterData = () => {
+            const savedDate = localStorage.getItem(WATER_DATE_KEY);
+            const today = new Date().toLocaleDateString();
+            if (savedDate === today) {
+                appState.water = parseInt(localStorage.getItem(WATER_KEY)) || 0;
+            } else {
+                appState.water = 0;
+            }
+            document.getElementById('water-display').innerText = appState.water;
+        };
+
+
         window.toggleSettings = () => {
             const modal = document.getElementById('settings-modal');
             modal.classList.toggle('open');
-            if(modal.classList.contains('open')) {
+            if (modal.classList.contains('open')) {
                 document.getElementById('setting-gemini').value = localStorage.getItem('user_gemini_key') || '';
                 document.getElementById('setting-firebase').value = localStorage.getItem('user_fb_config') || '';
             }
@@ -362,7 +663,7 @@
         };
 
         const getGeminiKey = () => localStorage.getItem('user_gemini_key') || "";
-        
+
         const getFirebaseConfig = () => {
             return {
                 apiKey: "AIzaSyCCuMYR13Ua0I4fcYDkQJS45PI7g_3U-AA",
@@ -388,7 +689,7 @@
                 isFirebaseActive = true;
                 await signInAnonymously(auth);
                 onAuthStateChanged(auth, (user) => {
-                    if(user) { currentUser = user; loadCloudData(); }
+                    if (user) { currentUser = user; loadCloudData(); }
                 });
             } catch (err) {
                 console.error("Firebase init error:", err);
@@ -397,26 +698,31 @@
         };
 
         const loadCloudData = async () => {
-            if(!currentUser) return;
+            if (!currentUser) return;
             try {
                 const docRef = doc(db, 'trainingData', 'global_shared_state');
                 const snap = await getDoc(docRef);
-                if(snap.exists()) {
-                    appState = Object.assign(appState, snap.data());
+                if (snap.exists()) {
+                    const cloudData = snap.data();
+                    appState = Object.assign(appState, cloudData);
+
+                    if (!appState.chats || appState.chats.length === 0) setupInitialChat();
+
                     populateProfileInputs();
-                    if(uiState.activeId) renderDay(uiState.activeId);
+                    if (uiState.activeId) renderDay(uiState.activeId);
                     renderList();
                     updateProgress();
-                    if(!document.getElementById('view-profile').classList.contains('hidden')) renderProgressCharts();
+                    updateAIChatUI();
+                    if (!document.getElementById('view-profile').classList.contains('hidden')) renderProgressCharts();
                 }
-            } catch(e) { console.error("Cloud load error:", e); }
+            } catch (e) { console.error("Cloud load error:", e); loadLocalData(); }
         };
 
         const syncData = async () => {
-            if(isFirebaseActive && currentUser && db) {
+            if (isFirebaseActive && currentUser && db) {
                 try {
                     await setDoc(doc(db, 'trainingData', 'global_shared_state'), appState);
-                } catch(e) { console.error("Sync error:", e); }
+                } catch (e) { console.error("Sync error:", e); }
             } else {
                 localStorage.setItem(DONE_KEY, JSON.stringify(appState.done));
                 localStorage.setItem(CUSTOM_KEY, JSON.stringify(appState.custom));
@@ -424,6 +730,9 @@
                 localStorage.setItem(FB_FEEDBACK_KEY, JSON.stringify(appState.aiFeedback));
                 localStorage.setItem('pilot_profile', JSON.stringify(appState.profile));
                 localStorage.setItem(HISTORY_KEY, JSON.stringify(appState.history));
+                localStorage.setItem('pilot_queue', JSON.stringify(appState.missedQueue));
+                localStorage.setItem(CHATS_KEY, JSON.stringify(appState.chats));
+                localStorage.setItem(ACTIVE_CHAT_KEY, appState.activeChatId);
             }
         };
 
@@ -434,8 +743,17 @@
             appState.aiFeedback = JSON.parse(localStorage.getItem(FB_FEEDBACK_KEY) || '{}');
             appState.profile = JSON.parse(localStorage.getItem('pilot_profile') || '{}');
             appState.history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-            
-            // נתונים פיקטיביים כדי שהגרף לא ייראה ריק בהתחלה
+            appState.missedQueue = JSON.parse(localStorage.getItem('pilot_queue') || '[]');
+
+            const savedChats = JSON.parse(localStorage.getItem(CHATS_KEY));
+
+            if (savedChats && savedChats.length > 0) {
+                appState.chats = savedChats;
+                appState.activeChatId = localStorage.getItem(ACTIVE_CHAT_KEY) || savedChats[0].id;
+            } else {
+                setupInitialChat();
+            }
+
             if (appState.history.length === 0) {
                 appState.history = [
                     { date: '10.1', pullups: 8, pushups: 35, burpees: 18, run3k: "14:30", run5k: "26:00" },
@@ -443,8 +761,92 @@
                 ];
             }
 
+            loadWaterData();
             populateProfileInputs();
             renderList();
+            updateAIChatUI();
+        };
+
+        const setupInitialChat = () => {
+            const id = 'chat_' + Date.now();
+            const dateStr = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+            appState.chats = [{
+                id,
+                title: `שיחה - ${dateStr}`,
+                messages: [{ role: 'bot', text: 'אהלן! אני כאן. תשאל אותי על אימונים, תבקש לשנות עומסים, או פשוט תגיד לי איך הלך האימון ואתן פידבק!' }]
+            }];
+            appState.activeChatId = id;
+            syncData();
+        };
+
+        window.startNewChat = () => {
+            const id = 'chat_' + Date.now();
+            const dateStr = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' });
+            appState.chats.unshift({
+                id,
+                title: `שיחה - ${dateStr}`,
+                messages: [{ role: 'bot', text: 'פתחתי שיחה חדשה. איך אני יכול לעזור היום?' }]
+            });
+            appState.activeChatId = id;
+            syncData();
+            updateAIChatUI();
+        };
+
+        window.selectChat = (id) => {
+            appState.activeChatId = id;
+            syncData();
+            updateAIChatUI();
+        };
+
+        window.clearCurrentChat = () => {
+            if (confirm("למחוק את השיחה הזו?")) {
+                appState.chats = appState.chats.filter(c => c.id !== appState.activeChatId);
+                if (appState.chats.length === 0) {
+                    setupInitialChat();
+                } else {
+                    appState.activeChatId = appState.chats[0].id;
+                }
+                syncData();
+                updateAIChatUI();
+            }
+        };
+
+        const updateAIChatUI = () => {
+            const activeChat = appState.chats.find(c => c.id === appState.activeChatId);
+            if (!activeChat) return;
+
+            document.getElementById('current-chat-title').innerText = activeChat.title;
+
+            const listContainer = document.getElementById('chat-list');
+            listContainer.innerHTML = appState.chats.map(chat => `
+                    <button onclick="selectChat('${chat.id}')" class="w-full text-right p-3 rounded-xl border transition-all text-sm font-bold truncate
+                    ${chat.id === appState.activeChatId ? 'bg-blue-600 text-white border-blue-600 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}">
+                        💬 ${chat.title}
+                    </button>
+                `).join('');
+
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = '';
+            activeChat.messages.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = msg.role === 'user'
+                    ? 'bg-white p-5 rounded-3xl shadow-sm border border-slate-200 self-end w-5/6 md:w-2/3 text-slate-800'
+                    : 'bg-blue-50 text-blue-900 p-5 rounded-3xl shadow-sm self-start w-5/6 md:w-2/3 border border-blue-200';
+
+                const label = msg.role === 'user' ? '👤 אתה' : '🤖 המאמן';
+                div.innerHTML = `<div class="text-xs font-black mb-2 opacity-50 uppercase tracking-wide">${label}</div><div class="whitespace-pre-wrap text-lg leading-relaxed">${msg.text}</div>`;
+                chatBox.appendChild(div);
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        };
+
+        const saveAndAddMsg = (role, text) => {
+            const activeChat = appState.chats.find(c => c.id === appState.activeChatId);
+            if (activeChat) {
+                activeChat.messages.push({ role, text });
+                syncData();
+                updateAIChatUI();
+            }
         };
 
         const timeToSeconds = (timeStr) => {
@@ -465,7 +867,7 @@
             if (!appState.history || appState.history.length === 0) return;
 
             const labels = appState.history.map(h => h.date);
-            
+
             const strengthCtx = document.getElementById('strength-chart').getContext('2d');
             if (strengthChartInstance) strengthChartInstance.destroy();
             strengthChartInstance = new Chart(strengthCtx, {
@@ -492,18 +894,18 @@
                         { label: 'ריצת 5 ק"מ', data: appState.history.map(h => timeToSeconds(h.run5k)), borderColor: '#0ea5e9', backgroundColor: '#0ea5e9', tension: 0.3, borderWidth: 3 }
                     ]
                 },
-                options: { 
-                    responsive: true, 
+                options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     scales: {
                         y: {
-                            ticks: { callback: function(value) { return secondsToTime(value); } }
+                            ticks: { callback: function (value) { return secondsToTime(value); } }
                         }
                     },
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: function(context) { return context.dataset.label + ': ' + secondsToTime(context.raw); }
+                                label: function (context) { return context.dataset.label + ': ' + secondsToTime(context.raw); }
                             }
                         }
                     }
@@ -514,14 +916,24 @@
         window.switchView = (view) => {
             document.getElementById('view-dashboard').classList.toggle('hidden', view !== 'dashboard');
             document.getElementById('view-profile').classList.toggle('hidden', view !== 'profile');
+            document.getElementById('view-ai').classList.toggle('hidden', view !== 'ai');
+            document.getElementById('view-nutrition').classList.toggle('hidden', view !== 'nutrition');
+            document.getElementById('view-garmin').classList.toggle('hidden', view !== 'garmin');
+
             document.getElementById('nav-dashboard').classList.toggle('border-blue-300', view === 'dashboard');
             document.getElementById('nav-profile').classList.toggle('border-blue-300', view === 'profile');
-            
+            document.getElementById('nav-ai').classList.toggle('border-blue-300', view === 'ai');
+            document.getElementById('nav-nutrition').classList.toggle('border-blue-300', view === 'nutrition');
+            document.getElementById('nav-garmin').classList.toggle('border-blue-300', view === 'garmin');
+
             if (view === 'profile') {
-                // הצג את התאריך של היום בשדה "תאריך מדידה" אוטומטית
                 const today = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
                 document.getElementById('prof-date').value = today;
                 setTimeout(renderProgressCharts, 100);
+            }
+            if (view === 'ai') {
+                const chatBox = document.getElementById('chat-box');
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
         };
 
@@ -531,14 +943,12 @@
                 pullups: document.getElementById('prof-pullups').value, pushups: document.getElementById('prof-pushups').value, burpees: document.getElementById('prof-burpees').value,
                 run3k: document.getElementById('prof-run3k').value, run5k: document.getElementById('prof-run5k').value, sim: document.getElementById('prof-sim').value
             };
-            
-            // קריאת התאריך שהמשתמש הזין. אם ריק - מציב את תאריך היום
+
             let customDate = document.getElementById('prof-date').value.trim();
-            if(!customDate) customDate = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
-            
+            if (!customDate) customDate = new Date().toLocaleDateString('he-IL', { day: 'numeric', month: 'numeric' });
+
             const currentStats = { ...appState.profile, date: customDate };
-            
-            // בודק אם כבר יש רישום ליום הספציפי שנבחר (אם כן, דורס אותו. אם לא, מוסיף)
+
             const existingIndex = appState.history.findIndex(h => h.date === customDate);
             if (existingIndex >= 0) {
                 appState.history[existingIndex] = currentStats;
@@ -546,7 +956,6 @@
                 appState.history.push(currentStats);
             }
 
-            // פונקציית מיון קטנה כדי שהגרף תמיד יהיה כרונולוגי גם אם מכניסים תאריך ישן
             appState.history.sort((a, b) => {
                 let [dayA, monthA] = a.date.split('.').map(Number);
                 let [dayB, monthB] = b.date.split('.').map(Number);
@@ -559,8 +968,7 @@
             if (!document.getElementById('view-profile').classList.contains('hidden')) {
                 renderProgressCharts();
             }
-            
-            // מראה למשתמש הודעה ויזואלית קטנה שהשמירה הצליחה
+
             const btn = document.querySelector('button[onclick="saveProfile()"]');
             const originalText = btn.innerText;
             btn.innerText = "נשמר בהצלחה! ✓";
@@ -572,75 +980,74 @@
         };
 
         window.clearHistory = () => {
-            if(confirm("האם אתה בטוח שברצונך לאפס את היסטוריית הגרפים? (הפעולה לא תמחוק את הפרופיל שלך, רק את ההיסטוריה)")) {
+            if (confirm("האם אתה בטוח שברצונך לאפס את היסטוריית הגרפים? (הפעולה לא תמחוק את הפרופיל שלך, רק את ההיסטוריה)")) {
                 appState.history = [];
                 syncData();
                 renderProgressCharts();
-                
-                // מנקה את הגרפים הויזואליים
-                if(strengthChartInstance) strengthChartInstance.destroy();
-                if(cardioChartInstance) cardioChartInstance.destroy();
+
+                if (strengthChartInstance) strengthChartInstance.destroy();
+                if (cardioChartInstance) cardioChartInstance.destroy();
             }
         };
 
         const populateProfileInputs = () => {
-            for(let key in appState.profile) {
+            for (let key in appState.profile) {
                 const el = document.getElementById(`prof-${key}`);
-                if(el) el.value = appState.profile[key];
+                if (el) el.value = appState.profile[key];
             }
         };
 
         const renderTabs = () => {
             const container = document.getElementById('month-tabs');
             container.innerHTML = monthsData.map(m => `
-                <button onclick="switchMonth('${m.id}')" class="px-6 py-2 rounded-xl font-bold transition-all whitespace-nowrap
-                ${uiState.month === m.id ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-500 hover:bg-slate-100 border border-slate-200'}">
-                    ${m.label}
-                </button>
-            `).join('');
-            
+                        <button onclick="switchMonth('${m.id}')" class="px-6 py-2 rounded-xl font-bold transition-all whitespace-nowrap
+                        ${uiState.month === m.id ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-500 hover:bg-slate-100 border border-slate-200'}">
+                            ${m.label}
+                        </button>
+                    `).join('');
+
             setTimeout(() => {
                 const activeTab = container.querySelector('.bg-blue-600');
-                if(activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }, 100);
         };
 
         window.switchMonth = (m) => {
             uiState.month = m;
             uiState.activeId = null;
-            const monthObj = monthsData.find(x=>x.id===m);
+            const monthObj = monthsData.find(x => x.id === m);
             document.getElementById('month-title-display').innerText = `חודש ${monthObj.label}`;
             renderTabs();
             renderList();
             updateProgress();
             updateChart();
-            
-            if(baseWorkouts[m].length === 0) {
+
+            if (baseWorkouts[m].length === 0) {
                 document.getElementById('main-content').innerHTML = `
-                    <div class="m-auto text-center text-slate-400 space-y-4 animate-fade-in">
-                        <p class="text-6xl">⏳</p>
-                        <p class="text-2xl font-bold">יעודכן בהמשך</p>
-                        <p>תוכנית האימונים לחודש זה תיבנה בהמשך בהתאם להתקדמות שלך.</p>
-                    </div>`;
+                            <div class="m-auto text-center text-slate-400 space-y-4 animate-fade-in">
+                                <p class="text-6xl">⏳</p>
+                                <p class="text-2xl font-bold">יעודכן בהמשך</p>
+                                <p>תוכנית האימונים לחודש זה תיבנה בהמשך בהתאם להתקדמות שלך.</p>
+                            </div>`;
             } else {
                 document.getElementById('main-content').innerHTML = `
-                    <div class="m-auto text-center text-slate-400 space-y-4 animate-fade-in">
-                        <p class="text-6xl">✈️</p>
-                        <p class="text-xl font-bold">בחר יום כדי לראות את התוכנית ולהזין סיכום אימון</p>
-                    </div>`;
+                            <div class="m-auto text-center text-slate-400 space-y-4 animate-fade-in">
+                                <p class="text-6xl">✈️</p>
+                                <p class="text-xl font-bold">בחר יום כדי לראות את התוכנית ולהזין סיכום אימון</p>
+                            </div>`;
             }
         };
 
         const renderList = () => {
             const container = document.getElementById('timeline-list');
             const data = baseWorkouts[uiState.month] || [];
-            if(data.length === 0) { container.innerHTML = ''; return; }
+            if (data.length === 0) { container.innerHTML = ''; return; }
 
             const filtered = uiState.filter === 'all' ? data : data.filter(w => {
                 const type = (appState.custom[w.id] && appState.custom[w.id].cat) ? appState.custom[w.id].cat : w.type;
                 return type === uiState.filter;
             });
-            
+
             container.innerHTML = filtered.map(w => {
                 const custom = appState.custom[w.id] || {};
                 const title = custom.title || w.title;
@@ -650,13 +1057,14 @@
                 const isActive = uiState.activeId === w.id;
 
                 return `
-                <div onclick="selectDay('${w.id}')" class="day-card p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-4 relative overflow-hidden ${isActive ? 'active' : 'border-transparent'} bg-cat-${type} ${isDone ? 'opacity-70' : ''}">
-                    <button onclick="toggleDone('${w.id}', event)" class="w-8 h-8 rounded-full border-2 flex shrink-0 items-center justify-center bg-white ${isDone ? 'border-emerald-500 text-emerald-600 font-bold' : 'border-slate-300 text-transparent'}">${isDone ? '✓' : ''}</button>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-slate-900">${w.date} - ${title} ${icon}</h4>
-                        <span class="text-xs font-black uppercase opacity-70">${getTypeLabel(type)}</span>
-                    </div>
-                </div>`;
+                        <div onclick="selectDay('${w.id}')" class="day-card p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-4 relative overflow-hidden ${isActive ? 'active' : 'border-transparent'} bg-cat-${type} ${isDone ? 'opacity-70' : ''}">
+                            <button onclick="toggleDone('${w.id}', event)" class="w-8 h-8 rounded-full border-2 flex shrink-0 items-center justify-center bg-white ${isDone ? 'border-emerald-500 text-emerald-600 font-bold' : 'border-slate-300 text-transparent'}">${isDone ? '✓' : ''}</button>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-slate-900">${w.date} - ${title} ${icon}</h4>
+                                <span class="text-xs font-black uppercase opacity-70">${getTypeLabel(type)}</span>
+                            </div>
+                            <button onclick="showNutritionTip('${type}', event)" class="w-8 h-8 rounded-full bg-white hover:bg-slate-100 flex shrink-0 items-center justify-center text-lg shadow-sm border border-slate-200 mr-auto" title="המלצת תזונה">🍎</button>
+                        </div>`;
             }).join('');
         };
 
@@ -664,7 +1072,7 @@
             uiState.activeId = id;
             renderList();
             renderDay(id);
-            
+
             if (window.innerWidth < 1024) {
                 setTimeout(() => {
                     document.getElementById('main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -675,7 +1083,7 @@
         const renderDay = (id) => {
             const allDays = Object.values(baseWorkouts).flat();
             const workout = allDays.find(w => w.id === id);
-            if(!workout) return;
+            if (!workout) return;
 
             const custom = appState.custom[id] || {};
             const title = custom.title || workout.title;
@@ -683,66 +1091,96 @@
             const type = custom.cat || workout.type;
             const icon = custom.icon || workout.icon;
             const isDone = !!appState.done[id];
-            
+
             const userNote = appState.notes[id] || "";
             const aiFB = appState.aiFeedback[id] || "";
 
             document.getElementById('main-content').innerHTML = `
-                <div class="animate-fade-in flex flex-col h-full overflow-y-auto no-scrollbar pb-4">
-                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4 border-b border-slate-100 pb-4 shrink-0">
-                        <div>
-                            <h2 class="text-2xl font-black text-slate-900">${workout.date} - ${title} ${icon}</h2>
-                            <div class="flex gap-3 mt-2 items-center">
-                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-bold">${getTypeLabel(type)}</span>
-                                <button onclick="toggleTimer()" class="text-sm font-bold text-slate-600 bg-slate-200 px-3 py-1 rounded-md hover:bg-slate-300 transition-colors">⏱️ הפעל טיימר</button>
+                        <div class="animate-fade-in flex flex-col h-full overflow-y-auto no-scrollbar pb-4">
+                            <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4 border-b border-slate-100 pb-4 shrink-0">
+                                <div>
+                                    <h2 class="text-2xl font-black text-slate-900">${workout.date} - ${title} ${icon}</h2>
+                                    <div class="flex gap-3 mt-2 items-center">
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-bold">${getTypeLabel(type)}</span>
+                                        <button onclick="toggleTimer()" class="text-sm font-bold text-slate-600 bg-slate-200 px-3 py-1 rounded-md hover:bg-slate-300 transition-colors">⏱️ הפעל טיימר</button>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2">
+                                    <button onclick="markAsMiyun('${id}')" class="bg-indigo-50 text-indigo-700 px-3 py-2 rounded-xl text-sm font-bold border border-indigo-100 hover:bg-indigo-100 transition-colors">🎯 הפוך ליום מיון</button>
+                                    <button onclick="enableEdit('${id}')" class="bg-blue-50 text-blue-600 px-3 py-2 rounded-xl text-sm font-bold border border-blue-100 hover:bg-blue-100 transition-colors">✏️ ערוך אימון</button>
+                                    <button onclick="toggleDone('${id}', null)" class="px-4 py-2 rounded-xl font-bold text-sm transition-colors border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-slate-100 border-slate-200 text-slate-700'}">
+                                        ${isDone ? '✅ הושלם' : 'סמן בוצע'}
+                                    </button>
+                                    <button onclick="pushToQueue('${id}', '${title}', '${type}')" class="bg-amber-50 text-amber-700 px-3 py-2 rounded-xl text-sm font-bold border border-amber-100 hover:bg-amber-100 transition-colors" >📥 דחה אימון לתור</button>
+                                    ${appState.missedQueue.length > 0 ? `<button onclick="popFromQueue('${id}')" class="bg-purple-50 text-purple-700 px-3 py-2 rounded-xl text-sm font-bold border border-purple-100 hover:bg-purple-100 transition-colors">📤 משוך אימון מהתור (${appState.missedQueue.length})</button>` : ''}
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <button onclick="markAsMiyun('${id}')" class="bg-indigo-50 text-indigo-700 px-3 py-2 rounded-xl text-sm font-bold border border-indigo-100 hover:bg-indigo-100 transition-colors">🎯 הפוך ליום מיון</button>
-                            <button onclick="enableEdit('${id}')" class="bg-blue-50 text-blue-600 px-3 py-2 rounded-xl text-sm font-bold border border-blue-100 hover:bg-blue-100 transition-colors">✏️ ערוך אימון</button>
-                            <button onclick="toggleDone('${id}', null)" class="px-4 py-2 rounded-xl font-bold text-sm transition-colors border ${isDone ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-slate-100 border-slate-200 text-slate-700'}">
-                                ${isDone ? '✅ הושלם' : 'סמן בוצע'}
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="disp-${id}" class="text-lg leading-relaxed whitespace-pre-line text-slate-700 mb-6">${details}</div>
-                    
-                    <div id="edit-${id}" class="hidden flex-col gap-3 mb-6">
-                        <input type="text" id="inp-title-${id}" value="${title}" class="w-full p-3 border rounded-xl font-bold text-lg outline-none focus:ring-2 focus:ring-blue-500">
-                        <textarea id="inp-details-${id}" class="w-full p-4 border rounded-xl min-h-[200px] outline-none focus:ring-2 focus:ring-blue-500 text-lg leading-relaxed">${details}</textarea>
-                        <div class="flex gap-2 justify-end">
-                            <button onclick="renderDay('${id}')" class="bg-slate-200 px-6 py-2 rounded-xl font-bold text-slate-700">ביטול</button>
-                            <button onclick="saveEdit('${id}')" class="bg-blue-600 text-white px-8 py-2 rounded-xl font-bold shadow-lg">שמור נתונים</button>
-                        </div>
-                    </div>
 
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mt-auto">
-                        <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>📝</span> סיכום אימון (איך היה, זמנים, קשיים)</h4>
-                        <textarea id="note-${id}" class="w-full p-3 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white min-h-[80px]" placeholder="לדוגמה: לקח לי 45 דקות, היה קשה מאוד במתח...">${userNote}</textarea>
-                        <div class="flex justify-end mt-2">
-                            <button onclick="saveNoteAndGetAIFeedback('${id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
-                                <span>שמור ובקש משוב AI</span> 🤖
-                            </button>
-                        </div>
-                        
-                        <div id="ai-loading-${id}" class="hidden text-sm text-indigo-500 font-bold mt-3 animate-pulse">המאמן קורא ומנתח...</div>
-                        
-                        ${aiFB ? `
-                        <div class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-xl">
-                            <p class="text-sm text-indigo-900 font-medium"><strong>מאמן וירטואלי:</strong> ${aiFB}</p>
-                        </div>` : ''}
-                    </div>
-                </div>`;
+                            <div id="disp-${id}" class="text-lg leading-relaxed whitespace-pre-line text-slate-700 mb-6">${details}</div>
+
+                            <div id="edit-${id}" class="hidden flex-col gap-3 mb-6">
+                                <input type="text" id="inp-title-${id}" value="${title}" class="w-full p-3 border rounded-xl font-bold text-lg outline-none focus:ring-2 focus:ring-blue-500">
+                                <textarea id="inp-details-${id}" class="w-full p-4 border rounded-xl min-h-[200px] outline-none focus:ring-2 focus:ring-blue-500 text-lg leading-relaxed">${details}</textarea>
+                                <div class="flex gap-2 justify-end">
+                                    <button onclick="renderDay('${id}')" class="bg-slate-200 px-6 py-2 rounded-xl font-bold text-slate-700">ביטול</button>
+                                    <button onclick="saveEdit('${id}')" class="bg-blue-600 text-white px-8 py-2 rounded-xl font-bold shadow-lg">שמור נתונים</button>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 mt-auto">
+                                <h4 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>📝</span> סיכום אימון (איך היה, זמנים, קשיים)</h4>
+                                <textarea id="note-${id}" class="w-full p-3 border rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 bg-white min-h-[80px]" placeholder="לדוגמה: לקח לי 45 דקות, היה קשה מאוד במתח...">${userNote}</textarea>
+                                <div class="flex justify-end mt-2">
+                                    <button onclick="saveNoteAndGetAIFeedback('${id}')" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
+                                        <span>שמור ובקש משוב AI</span> 🤖
+                                    </button>
+                                </div>
+
+                                <div id="ai-loading-${id}" class="hidden text-sm text-indigo-500 font-bold mt-3 animate-pulse">המאמן קורא ומנתח...</div>
+
+                                ${aiFB ? `
+                                <div class="mt-4 p-4 bg-indigo-50 border border-indigo-100 rounded-xl">
+                                    <p class="text-sm text-indigo-900 font-medium"><strong>מאמן וירטואלי:</strong> ${aiFB}</p>
+                                </div>` : ''}
+                            </div>
+                        </div>`;
         };
 
         window.toggleDone = (id, e) => {
-            if(e) e.stopPropagation();
+            if (e) e.stopPropagation();
             appState.done[id] = !appState.done[id];
             syncData();
             renderList();
             updateProgress();
-            if(uiState.activeId === id) renderDay(id);
+            if (uiState.activeId === id) renderDay(id);
+        };
+
+        window.pushToQueue = (id, title, cat) => {
+            const allDays = Object.values(baseWorkouts).flat();
+            const workout = allDays.find(w => w.id === id);
+            const details = (appState.custom[id] && appState.custom[id].details) ? appState.custom[id].details : workout.details;
+
+            appState.missedQueue.push({ originalId: id, title, cat, details });
+
+            appState.custom[id] = { title: "נדחה להשלמה בהמשך", cat: "rest", icon: "💤", details: "האימון המקורי הועבר לתור ההשלמות." };
+
+            syncData();
+            selectDay(id);
+            alert("האימון נכנס לתור ההשלמות!");
+        };
+
+        window.popFromQueue = (id) => {
+            if (appState.missedQueue.length === 0) return;
+            const nextWorkout = appState.missedQueue.shift();
+
+            appState.custom[id] = {
+                title: nextWorkout.title + " (השלמה)",
+                cat: nextWorkout.cat,
+                details: "אימון השלמה מיום קודם:\n\n" + nextWorkout.details
+            };
+
+            syncData();
+            selectDay(id);
         };
 
         window.enableEdit = (id) => {
@@ -752,7 +1190,7 @@
         };
 
         window.saveEdit = (id) => {
-            if(!appState.custom[id]) appState.custom[id] = {};
+            if (!appState.custom[id]) appState.custom[id] = {};
             appState.custom[id].title = document.getElementById(`inp-title-${id}`).value;
             appState.custom[id].details = document.getElementById(`inp-details-${id}`).value;
             syncData();
@@ -773,9 +1211,9 @@
             appState.notes[id] = noteText;
             syncData();
 
-            if(!noteText) return;
+            if (!noteText) return;
             const geminiKey = getGeminiKey();
-            if(!geminiKey) { alert("יש להזין מפתח Gemini במסך ההגדרות כדי לקבל משוב חכם."); return; }
+            if (!geminiKey) { alert("יש להזין מפתח Gemini במסך ההגדרות כדי לקבל משוב חכם."); return; }
 
             document.getElementById(`ai-loading-${id}`).classList.remove('hidden');
 
@@ -783,9 +1221,9 @@
             const workoutDetails = (appState.custom[id] && appState.custom[id].details) ? appState.custom[id].details : dayObj.details;
 
             const prompt = `You are an elite IDF Pilot course fitness instructor. The trainee just finished their daily workout and wrote a note about it.
-            Workout Plan: "${workoutDetails}".
-            Trainee's Note: "${noteText}".
-            Provide a short, highly motivating, and professional feedback in Hebrew (2-3 sentences max). Suggest one small point for improvement or mental resilience if applicable. DO NOT use markdown formatting, just plain text.`;
+                    Workout Plan: "${workoutDetails}".
+                    Trainee's Note: "${noteText}".
+                    Provide a short, highly motivating, and professional feedback in Hebrew (2-3 sentences max). Suggest one small point for improvement or mental resilience if applicable. DO NOT use markdown formatting, just plain text.`;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
@@ -795,7 +1233,7 @@
                 });
                 const result = await response.json();
                 const aiText = result.candidates[0].content.parts[0].text;
-                
+
                 appState.aiFeedback[id] = aiText;
                 syncData();
                 renderDay(id);
@@ -808,7 +1246,7 @@
             const days = baseWorkouts[uiState.month] || [];
             const total = days.length;
             const count = days.filter(d => appState.done[d.id]).length;
-            const pct = total > 0 ? Math.round((count/total)*100) : 0;
+            const pct = total > 0 ? Math.round((count / total) * 100) : 0;
             document.getElementById('progress-bar').style.width = pct + '%';
             document.getElementById('progress-percent').innerText = pct + '%';
             document.getElementById('progress-stats').innerText = total > 0 ? `${count}/${total} הושלמו` : 'אין אימונים';
@@ -819,10 +1257,10 @@
             const counts = { strength: 0, legs: 0, cardio: 0, intervals: 0, simulation: 0, other: 0 };
             data.forEach(w => {
                 const type = (appState.custom[w.id] && appState.custom[w.id].cat) ? appState.custom[w.id].cat : w.type;
-                if(counts[type] !== undefined) counts[type]++; else counts.other++;
+                if (counts[type] !== undefined) counts[type]++; else counts.other++;
             });
             const ctx = document.getElementById('type-chart').getContext('2d');
-            if(chartInstance) chartInstance.destroy();
+            if (chartInstance) chartInstance.destroy();
             chartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -835,32 +1273,73 @@
             });
         };
 
+        // --- מאמן שמע קולי ---
+        const speak = (text) => {
+            if (!window.speechSynthesis) return;
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'he-IL';
+            msg.rate = 1.2;
+            window.speechSynthesis.speak(msg);
+        };
+
         window.timerObj = {
-            interval: null, seconds: 0, isRunning: false,
-            start: function() {
-                if(this.isRunning) return;
+            interval: null, seconds: 0, isRunning: false, mode: 'stopwatch', workTime: 45, restTime: 15, currentPhase: 'work',
+            start: function () {
+                if (this.isRunning) return;
                 this.isRunning = true;
+
+                if (this.mode === 'intervals' && this.seconds === 0) speak("מתחילים בעבודה. צא!");
+
                 this.interval = setInterval(() => {
                     this.seconds++;
-                    const m = String(Math.floor(this.seconds / 60)).padStart(2, '0');
-                    const s = String(this.seconds % 60).padStart(2, '0');
+                    let displaySecs = this.seconds;
+
+                    if (this.mode === 'intervals') {
+                        const totalCycle = this.workTime + this.restTime;
+                        const cycleSecs = this.seconds % totalCycle;
+
+                        const phase = cycleSecs < this.workTime ? 'work' : 'rest';
+                        const timeLeft = phase === 'work' ? this.workTime - cycleSecs : totalCycle - cycleSecs;
+
+                        if (phase !== this.currentPhase) {
+                            if (phase === 'rest') speak(`מנוחה של ${this.restTime} שניות. להסדיר דופק.`);
+                        }
+                        this.currentPhase = phase;
+
+                        // Audio alerts
+                        if (phase === 'work' && timeLeft === 10) speak("עשר שניות אחרונות, לתת הכל!");
+                        if (phase === 'rest' && timeLeft === 3) speak("מתכוננים. שלוש, שתיים, אחת, צא!");
+
+                        displaySecs = timeLeft;
+
+                        document.getElementById('timer-phase').innerText = this.currentPhase === 'work' ? '🔥 עבודה' : '💤 מנוחה';
+                        document.getElementById('timer-phase').className = this.currentPhase === 'work' ? 'text-red-400 font-bold hover:text-red-300' : 'text-blue-400 font-bold hover:text-blue-300';
+                    }
+
+                    const m = String(Math.floor(displaySecs / 60)).padStart(2, '0');
+                    const s = String(displaySecs % 60).padStart(2, '0');
                     document.getElementById('timer-display').innerText = `${m}:${s}`;
                 }, 1000);
             },
-            stop: function() { clearInterval(this.interval); this.isRunning = false; },
-            reset: function() { this.stop(); this.seconds = 0; document.getElementById('timer-display').innerText = "00:00"; }
+            stop: function () { clearInterval(this.interval); this.isRunning = false; },
+            reset: function () { this.stop(); this.seconds = 0; document.getElementById('timer-display').innerText = "00:00"; },
+            toggleMode: function () {
+                this.mode = this.mode === 'stopwatch' ? 'intervals' : 'stopwatch';
+                this.reset();
+                document.getElementById('timer-phase').innerText = this.mode === 'intervals' ? '⏱️ מצב אינטרוולים' : '⏱️ שעון עצר';
+                document.getElementById('timer-phase').className = 'text-blue-400 hover:text-blue-300';
+            }
         };
         window.toggleTimer = () => document.getElementById('timer-widget').classList.toggle('open');
 
-        window.toggleBot = () => document.getElementById('bot-window').classList.toggle('open');
         window.sendToGemini = async () => {
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             const geminiKey = getGeminiKey();
             if (!text) return;
-            if (!geminiKey) { addMsg('bot', "מפתח ה-API חסר. הכנס אותו במסך ההגדרות (⚙️) למעלה."); return; }
+            if (!geminiKey) { saveAndAddMsg('bot', "מפתח ה-API חסר. הכנס אותו במסך ההגדרות (⚙️) למעלה."); return; }
 
-            addMsg('user', text);
+            saveAndAddMsg('user', text);
             input.value = "";
             document.getElementById('bot-status').classList.remove('hidden');
 
@@ -879,26 +1358,30 @@
                 }
             }
 
+            const activeChat = appState.chats.find(c => c.id === appState.activeChatId);
+            let previousContext = activeChat ? activeChat.messages.slice(-4, -1).map(m => `${m.role === 'user' ? 'User' : 'Assistant'}: ${m.text}`).join('\n') : "";
+
             const sysPrompt = `You are an elite IDF Pilot Training Assistant. The user speaks Hebrew.
-            
-            [CONTEXT]
-            Month Schedule: ${monthSummary}
-            Selected Workout: ${selectedDay}
-            User Stats: Weight ${appState.profile.weight || 'N/A'}kg, Height ${appState.profile.height || 'N/A'}cm, Max Pullups ${appState.profile.pullups || 'N/A'}.
-            
-            [INSTRUCTIONS]
-            1. Provide specific, professional feedback on the workouts in Hebrew. 
-            2. To MODIFY or ADD a workout, use the "updates" JSON object. Include the target Day ID (e.g., "m5"), and set "title", "details", and "cat" (options: cardio, strength, legs, intervals, simulation, rest).
-            3. To REMOVE or CANCEL a workout, update that Day ID with "cat": "rest", "title": "יום מנוחה", and "details": "האימון בוטל/נמחק לבקשתך.".
-            4. DO NOT output Markdown (like \`\`\`json). Output pure JSON only.
-            
-            FORMAT:
-            {
-              "message": "Your helpful response here...",
-              "updates": { 
-                 "${uiState.activeId || 'm5'}": { "title": "...", "details": "...", "cat": "strength" } 
-              }
-            }`;
+
+                    [CONTEXT]
+                    Month Schedule: ${monthSummary}
+                    Selected Workout: ${selectedDay}
+                    User Stats: Weight ${appState.profile.weight || 'N/A'}kg, Height ${appState.profile.height || 'N/A'}cm, Max Pullups ${appState.profile.pullups || 'N/A'}.
+                    Recent Chat History:\n${previousContext}
+
+                    [INSTRUCTIONS]
+                    1. Provide specific, professional feedback on the workouts in Hebrew.
+                    2. To MODIFY or ADD a workout, use the "updates" JSON object. Include the target Day ID (e.g., "m5"), and set "title", "details", and "cat" (options: cardio, strength, legs, intervals, simulation, rest).
+                    3. To REMOVE or CANCEL a workout, update that Day ID with "cat": "rest", "title": "יום מנוחה", and "details": "האימון בוטל/נמחק לבקשתך.".
+                    4. DO NOT output Markdown (like \`\`\`json). Output pure JSON only.
+
+                    FORMAT:
+                    {
+                      "message": "Your helpful response here...",
+                      "updates": {
+                         "${uiState.activeId || 'm5'}": { "title": "...", "details": "...", "cat": "strength" }
+                      }
+                    }`;
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
@@ -919,7 +1402,10 @@
                 const botData = JSON.parse(cleanJson);
 
                 document.getElementById('bot-status').classList.add('hidden');
-                if (botData.message) addMsg('bot', botData.message);
+
+                if (botData.message) {
+                    saveAndAddMsg('bot', botData.message);
+                }
 
                 if (botData.updates && Object.keys(botData.updates).length > 0) {
                     let changed = false;
@@ -930,28 +1416,166 @@
                     }
                     if (changed) {
                         syncData();
-                        renderList(); 
-                        if (uiState.activeId) selectDay(uiState.activeId); 
-                        addMsg('bot', "✅ ביצעתי את השינויים שביקשת בלוח האימונים.");
+                        renderList();
+                        if (uiState.activeId) selectDay(uiState.activeId);
+                        saveAndAddMsg('bot', "✅ ביצעתי את השינויים שביקשת בלוח האימונים.");
                     }
                 }
             } catch (e) {
                 console.error("Gemini Error:", e);
                 document.getElementById('bot-status').classList.add('hidden');
-                addMsg('bot', "שגיאה בפיענוח. נסה להסביר לבוט את הבקשה שוב.");
+                saveAndAddMsg('bot', "שגיאה בפיענוח. נסה להסביר לי את הבקשה שוב בבקשה.");
             }
         };
 
-        function addMsg(role, text) {
-            const chat = document.getElementById('chat-box');
-            const div = document.createElement('div');
-            div.className = role === 'user' ? 'bg-white p-3 rounded-2xl shadow-sm border self-end mr-8' : 'bg-blue-100 text-blue-900 p-3 rounded-2xl shadow-sm self-start ml-8';
-            div.innerText = text;
-            chat.appendChild(div);
-            chat.scrollTop = chat.scrollHeight;
-        }
+        // ==== תזונה AI ====
+        window.analyzeFood = async () => {
+            const input = document.getElementById('food-input').value;
+            const apiKey = getGeminiKey();
 
-        // INIT
+            if(!input) {
+                alert("אנא תאר מה אכלת כדי שה-AI יוכל לנתח.");
+                return;
+            }
+            if(!apiKey) {
+                alert("יש להזין מפתח API של Gemini במסך ההגדרות (סמל גלגל השיניים למעלה).");
+                return;
+            }
+
+            const promptText = `נתח את הארוחה הבאה והערך את הערכים התזונתיים שלה (הערכה גסה מותרת). הארוחה: "${input}". החזר את התשובה *אך ורק* בפורמט JSON חוקי לפי המבנה הבא (ללא טקסט נוסף וללא תגיות Markdown): {"calories": מספר, "protein": מספר, "carbs": מספר, "fat": מספר}`;
+
+            try {
+                document.getElementById('nutrition-loading').classList.remove('hidden');
+                document.getElementById('nutrition-results').classList.add('hidden');
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: promptText }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                if (!response.ok) throw new Error("API request failed");
+
+                const data = await response.json();
+                let resultText = data.candidates[0].content.parts[0].text;
+                resultText = resultText.replace(/\`\`\`json/gi, '').replace(/\`\`\`/g, '').trim();
+                const resultJSON = JSON.parse(resultText);
+
+                document.getElementById('res-cal').innerText = resultJSON.calories || 0;
+                document.getElementById('res-pro').innerText = resultJSON.protein || 0;
+                document.getElementById('res-car').innerText = resultJSON.carbs || 0;
+                document.getElementById('res-fat').innerText = resultJSON.fat || 0;
+
+                document.getElementById('nutrition-loading').classList.add('hidden');
+                document.getElementById('nutrition-results').classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Nutrition AI Error:", error);
+                document.getElementById('nutrition-loading').classList.add('hidden');
+                alert("שגיאה בניתוח הנתונים. אנא ודא שהמפתח תקין ונסה שוב.");
+            }
+        };
+
+        // ==== פונקציית Garmin Parsing (מעודכנת לטיפול בקבצים ללא Sessions) ====
+        document.getElementById('fit-upload')?.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const buffer = new Uint8Array(e.target.result);
+                const fitParser = new window.FitParser({
+                    force: true,
+                    speedUnit: 'km/h',
+                    lengthUnit: 'km',
+                    temperatureUnit: 'celsius',
+                    elapsedRecordField: true,
+                    mode: 'list', // שינוי חשוב כדי לקבל מערכים שטוחים של נתונים
+                });
+
+                fitParser.parse(buffer, function (error, data) {
+                    if (error) {
+                        document.getElementById('garmin-data').innerHTML = `<p class="text-red-500 font-bold p-4 bg-red-50 rounded-xl">שגיאה בקריאת הקובץ: ${error}</p>`;
+                        return;
+                    }
+
+                    let distance = 0, avgHR = 'לא זמין', maxHR = 'לא זמין', calories = 'לא זמין';
+
+                    // 1. ננסה למצוא מתוך Sessions
+                    let sessions = data.sessions || (data.activity && data.activity.sessions) || [];
+
+                    // אם אין sessions אבל יש laps, ננסה להשתמש ב-laps כגיבוי
+                    if (sessions.length === 0 && data.laps && data.laps.length > 0) {
+                        sessions = [{
+                            total_distance: data.laps.reduce((sum, lap) => sum + (lap.total_distance || 0), 0),
+                            total_calories: data.laps.reduce((sum, lap) => sum + (lap.total_calories || 0), 0),
+                            avg_heart_rate: Math.round(data.laps.reduce((sum, lap) => sum + (lap.avg_heart_rate || 0), 0) / data.laps.filter(l => l.avg_heart_rate).length) || null,
+                            max_heart_rate: Math.max(...data.laps.map(l => l.max_heart_rate || 0)) || null,
+                        }];
+                    }
+
+                    if (sessions.length > 0) {
+                        const s = sessions[0];
+                        distance = s.total_distance ? (s.total_distance > 100 ? (s.total_distance / 1000).toFixed(2) : s.total_distance.toFixed(2)) : '0';
+                        avgHR = s.avg_heart_rate || 'לא זמין';
+                        maxHR = s.max_heart_rate || (s.max_heart_rate === 0 ? 'לא זמין' : s.max_heart_rate);
+                        calories = s.total_calories || 'לא זמין';
+                    }
+                    // 2. גיבוי - נחשב מתוך ה-Records (רשומות של כל שנייה)
+                    else if (data.records && data.records.length > 0) {
+                        let hrs = data.records.map(r => r.heart_rate).filter(Boolean);
+                        if(hrs.length > 0) {
+                            avgHR = Math.round(hrs.reduce((a,b) => a + b, 0) / hrs.length);
+                            maxHR = Math.max(...hrs);
+                        }
+
+                        let dists = data.records.map(r => r.distance).filter(Boolean);
+                        if(dists.length > 0) {
+                            let maxDist = Math.max(...dists);
+                            distance = maxDist > 100 ? (maxDist / 1000).toFixed(2) : maxDist.toFixed(2);
+                        } else {
+                            distance = '0';
+                        }
+                        calories = 'חושב ידנית';
+                    }
+                    else {
+                        const keys = Object.keys(data).join(', ');
+                         document.getElementById('garmin-data').innerHTML = `<p class="text-amber-600 font-bold p-4 bg-amber-50 rounded-xl mt-4">לא נמצאו נתוני פעילות מפורטים. השדות שנמצאו בקובץ: <br> ${keys}. <br> ודא שזהו קובץ אימון (Activity) ולא קובץ הגדרות.</p>`;
+                         return;
+                    }
+
+                    // הצגת הנתונים
+                    document.getElementById('garmin-data').innerHTML = `
+                        <div class="bg-blue-50 border border-blue-200 text-blue-800 p-6 rounded-2xl mt-4">
+                            <strong class="text-2xl block mb-4 flex items-center gap-2"><span>✅</span> נתוני הפעילות חולצו בהצלחה!</strong>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-blue-100">
+                                    <span class="block text-slate-500 text-sm font-bold">מרחק כולל</span>
+                                    <span class="text-2xl font-black text-slate-800">${distance} ק"מ</span>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-blue-100">
+                                    <span class="block text-slate-500 text-sm font-bold">קלוריות</span>
+                                    <span class="text-2xl font-black text-slate-800">${calories}</span>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-blue-100">
+                                    <span class="block text-slate-500 text-sm font-bold">דופק ממוצע</span>
+                                    <span class="text-2xl font-black text-red-500">${avgHR} bpm</span>
+                                </div>
+                                <div class="bg-white p-4 rounded-xl shadow-sm text-center border border-blue-100">
+                                    <span class="block text-slate-500 text-sm font-bold">דופק מקסימלי</span>
+                                    <span class="text-2xl font-black text-red-600">${maxHR === 0 ? 'לא זמין' : maxHR} bpm</span>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        // INIT calls
         generateWorkouts();
         initFirebase();
         renderTabs();
