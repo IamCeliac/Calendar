@@ -341,37 +341,38 @@
             </div>
         </section>
 
-        <div id="view-ai" class="hidden">
-            <section class="bg-white rounded-3xl shadow-lg border border-slate-200 p-6 flex flex-col md:flex-row gap-6 h-[75vh] min-h-[600px] animate-fade-in">
+       <div id="view-ai" class="hidden">
+            <section class="bg-white rounded-3xl shadow-lg border border-slate-200 p-4 md:p-6 flex flex-col md:flex-row gap-4 h-[85vh] md:h-[75vh] animate-fade-in">
 
-                <div class="w-full md:w-1/4 flex flex-col border-b md:border-b-0 md:border-l border-slate-200 pb-4 md:pb-0 md:pl-4 space-y-4 shrink-0 h-48 md:h-full">
-                    <button onclick="startNewChat()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-black py-4 rounded-xl border border-blue-200 transition-colors shadow-sm flex items-center justify-center gap-2">
+                <div class="w-full md:w-1/4 flex flex-col border-b md:border-b-0 md:border-l border-slate-200 pb-3 md:pb-0 md:pl-4 space-y-3 shrink-0">
+                    <button onclick="startNewChat()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-black py-2 md:py-4 rounded-xl border border-blue-200 transition-colors shadow-sm flex items-center justify-center gap-2">
                         <span class="text-xl">+</span> שיחה חדשה
                     </button>
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 mt-2">היסטוריית שיחות</div>
-                    <div id="chat-list" class="flex-1 overflow-y-auto space-y-2 no-scrollbar flex flex-col">
+                    <div id="chat-list" class="flex overflow-x-auto md:overflow-y-auto flex-row md:flex-col gap-2 md:gap-0 md:space-y-2 no-scrollbar pb-2 md:pb-0">
                     </div>
                 </div>
 
-                <div class="w-full md:w-3/4 flex flex-col h-full overflow-hidden">
-                    <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-4 shrink-0">
-                        <div>
-                            <h2 class="text-2xl font-black text-slate-900 flex items-center gap-2"><span>🤖</span> <span id="current-chat-title">מאמן אישי</span></h2>
-                            <p class="text-slate-500 text-sm">המאמן הווירטואלי שלך</p>
+                <div class="w-full md:w-3/4 flex flex-col h-full overflow-hidden flex-1">
+                    <div class="flex justify-between items-center mb-3 border-b border-slate-100 pb-3 shrink-0 gap-2">
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <span class="text-2xl shrink-0">🤖</span>
+                            <div class="flex flex-col overflow-hidden">
+                                <h2 class="text-lg md:text-2xl font-black text-slate-900 truncate" id="current-chat-title">מאמן אישי</h2>
+                            </div>
                         </div>
-                        <button onclick="clearCurrentChat()" class="text-xs text-red-500 hover:bg-red-50 border border-red-100 px-3 py-1 rounded-lg font-bold transition-colors">מחק שיחה זו</button>
+                        <button onclick="clearCurrentChat()" class="text-xs text-red-500 hover:bg-red-50 border border-red-100 px-3 py-1.5 md:px-3 md:py-1 rounded-lg font-bold transition-colors whitespace-nowrap shrink-0">מחק שיחה</button>
                     </div>
 
-                    <div id="chat-box" class="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col mb-4">
+                    <div id="chat-box" class="flex-1 overflow-y-auto p-3 md:p-4 space-y-4 bg-slate-50 rounded-2xl border border-slate-100 flex flex-col mb-3">
                     </div>
 
-                    <div id="bot-status" class="hidden h-1 bg-blue-100 overflow-hidden rounded-full mb-2 shrink-0">
-                        <div class="h-full bg-blue-600 w-1/3 animate-[slide_1.5s_infinite]"></div>
+                    <div id="bot-status" class="hidden text-sm text-blue-600 font-bold mb-2 shrink-0 animate-pulse text-center">
+                        המאמן קורא ומנתח...
                     </div>
 
-                    <div class="mt-auto flex gap-3 shrink-0">
-                        <input id="chat-input" type="text" placeholder="הקלד הודעה למאמן..." class="flex-1 border-2 border-slate-200 rounded-xl px-5 py-4 outline-none focus:ring-2 focus:ring-blue-500 text-lg transition-all" onkeypress="if(event.key === 'Enter') sendToGemini()">
-                        <button onclick="sendToGemini()" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-md text-lg whitespace-nowrap">שלח</button>
+                    <div class="mt-auto flex gap-2 md:gap-3 shrink-0">
+                        <input id="chat-input" type="text" placeholder="הקלד למאמן..." class="flex-1 border-2 border-slate-200 rounded-xl px-3 py-2 md:px-5 md:py-4 outline-none focus:ring-2 focus:ring-blue-500 text-base md:text-lg transition-all" onkeypress="if(event.key === 'Enter') sendToGemini()">
+                        <button onclick="sendToGemini()" class="bg-blue-600 text-white px-5 py-2 md:px-8 md:py-4 rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-md text-base md:text-lg whitespace-nowrap">שלח</button>
                     </div>
                 </div>
             </section>
@@ -811,7 +812,7 @@
             }
         };
 
-        const updateAIChatUI = () => {
+       const updateAIChatUI = () => {
             const activeChat = appState.chats.find(c => c.id === appState.activeChatId);
             if (!activeChat) return;
 
@@ -819,7 +820,7 @@
 
             const listContainer = document.getElementById('chat-list');
             listContainer.innerHTML = appState.chats.map(chat => `
-                    <button onclick="selectChat('${chat.id}')" class="w-full text-right p-3 rounded-xl border transition-all text-sm font-bold truncate
+                    <button onclick="selectChat('${chat.id}')" class="text-right p-2 md:p-3 rounded-xl border transition-all text-xs md:text-sm font-bold truncate whitespace-nowrap shrink-0 max-w-[140px] md:max-w-full md:w-full
                     ${chat.id === appState.activeChatId ? 'bg-blue-600 text-white border-blue-600 shadow-md' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}">
                         💬 ${chat.title}
                     </button>
@@ -830,11 +831,11 @@
             activeChat.messages.forEach(msg => {
                 const div = document.createElement('div');
                 div.className = msg.role === 'user'
-                    ? 'bg-white p-5 rounded-3xl shadow-sm border border-slate-200 self-end w-5/6 md:w-2/3 text-slate-800'
-                    : 'bg-blue-50 text-blue-900 p-5 rounded-3xl shadow-sm self-start w-5/6 md:w-2/3 border border-blue-200';
+                    ? 'bg-white p-3 md:p-5 rounded-3xl shadow-sm border border-slate-200 self-end w-[85%] md:w-2/3 text-slate-800'
+                    : 'bg-blue-50 text-blue-900 p-3 md:p-5 rounded-3xl shadow-sm self-start w-[85%] md:w-2/3 border border-blue-200';
 
                 const label = msg.role === 'user' ? '👤 אתה' : '🤖 המאמן';
-                div.innerHTML = `<div class="text-xs font-black mb-2 opacity-50 uppercase tracking-wide">${label}</div><div class="whitespace-pre-wrap text-lg leading-relaxed">${msg.text}</div>`;
+                div.innerHTML = `<div class="text-[10px] md:text-xs font-black mb-1 md:mb-2 opacity-50 uppercase tracking-wide">${label}</div><div class="whitespace-pre-wrap text-base md:text-lg leading-relaxed">${msg.text}</div>`;
                 chatBox.appendChild(div);
             });
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -1585,3 +1586,4 @@
     </script>
 </body>
 </html>
+
